@@ -44,7 +44,7 @@ export const globalConstants = {
 		},
 	},
   app: {
-    id: 52635210,
+    id: 52634961,
   },
   map: {
     token: "",
