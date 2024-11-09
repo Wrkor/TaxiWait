@@ -1,26 +1,20 @@
 import bridge from '@vkontakte/vk-bridge'
 import { useEffect } from 'react'
-import globalConstants from '../config/globalConstants'
 import { mockOnboardingSlides } from '../config/mockOnboardingSlides'
-import { appStorageGet, appStorageSet } from '../helpers'
+import { onbordingShowGet, onbordingShowSet } from '../helpers'
 
 export const useOnboardSlides = () => {
 
   useEffect(() => {
     const showOnboarding = async () => {
-      const storageKeysResult = await appStorageGet([globalConstants.storage.onboarding.key])
+      const isOnbordingWasShown = await onbordingShowGet()
 
-      if (storageKeysResult?.keys?.[0]?.value !== globalConstants.storage.onboarding.confrim) {
+      if(isOnbordingWasShown) return
 
-        const showOnboardSlidesResult = await bridge.send(
-          'VKWebAppShowSlidesSheet',
-          mockOnboardingSlides,
-        );
+      const showOnboardSlidesResult = await bridge.send('VKWebAppShowSlidesSheet', mockOnboardingSlides);
 
-        appStorageSet(
-          globalConstants.storage.onboarding.key,
-          showOnboardSlidesResult.action,
-        )
+      if(showOnboardSlidesResult.result){
+        await onbordingShowSet()
       }
     }
 

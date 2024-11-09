@@ -28,10 +28,6 @@ export const globalConstants = {
     monitoringRoad: 'monitoringRoad',
   },
 	storage: {
-    onboarding: {
-			key: 'onboarding',
-			confrim: "confrim",
-		},
 		confirmOrders: {
 			key: 'confirmOrders',
 			true: true,
