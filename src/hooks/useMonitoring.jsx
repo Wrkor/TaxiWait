@@ -1,38 +1,40 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getUserActiveMonitoring } from '../api/'
 import { DataContext } from '../context/data'
+import { normalizeError } from '../helpers'
 
 export const useMonitoring = () => {
+  const [isLoading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const dataContext = useContext(DataContext)
+  
   const monitoring = dataContext?.data?.monitoring
   const account = dataContext?.data?.account
 
-  const isMonitoring = monitoring?.isMonitoring
-  const isCompleteSuccess = monitoring?.isCompleteSuccess
-  const isCompleteCancel = monitoring?.isCompleteCancel
-
   useEffect(() => {
     if (!account || !!monitoring) {
-      return;
+      setLoading(false)
     }
-
-    const loadActiveOrder = async () => {
+    
+    async () => {
       try {
-        const getMonitoring = await getUserActiveMonitoring(account.id)
-
+        const monitoring = await getUserActiveMonitoring(account.id)
+  
         dataContext.setData({
-          ...dataContext.data,
-          monitoring: getMonitoring,
+          ...dataContext?.data,
+          monitoring,
         });
       } 
       catch (e) {
-        console.log('Ошибка получения активного заказа пользователя:', e)
+        setError(normalizeError('Ошибка получения активного заказа пользователя:'))
+      }
+      finally {
+        setLoading(false)
       }
     }
-    loadActiveOrder()
   }, [monitoring, account])
 
-  return { isMonitoring, isCompleteSuccess, isCompleteCancel, monitoring }
+  return { isLoading, error, monitoring }
 }
 
 export default useMonitoring

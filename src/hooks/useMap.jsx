@@ -13,12 +13,12 @@ export const useMap = (mapRef) => {
   const mapStyle = isDarkTheme ? globalConstants.map.theme.dark : globalConstants.map.theme.light
 
   useEffect(() => {
-    if (!mapRef.current || !appearance) {
+    if (!mapRef.current) {
       return;
     }
-
     mmrgl.prewarm()
     mmrgl.accessToken = globalConstants.map.token
+
     const connectedMapEntity = new mmrgl.Map({
       container: mapRef.current,
       zoom: globalConstants.map.zoom,
@@ -33,7 +33,6 @@ export const useMap = (mapRef) => {
     connectedMapEntity.on('load', () => setLoading(false));
     connectedMapEntity.on('error', (error) => setMapError(error));
     return () => connectedMapEntity.remove()
-    
   }, [mapRef, isDarkTheme]);
 
   return { mapError, isLoading, storedMapEntity };

@@ -1,0 +1,81 @@
+.bgContent {
+  background-color: var(--vkui--color_background_content);
+}
+
+.ReactSwipeableBottomSheet--closed, .ReactSwipeableBottomSheet--open {
+  user-select: none;
+  border-radius: 12px;
+  background-color: transparent !important;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.nonSeleted {
+  user-select: none;
+}
+
+.vkuiFormField_scrollContainer {
+  background-color: var(--vkui--color_background_content);
+}
+
+.colorFirst {
+  color: var(--vkui--color_text_primary);
+}
+
+.colorSecondary {
+  color: var(--vkui--color_text_secondary);
+}
+
+.colorActive {
+  color: #FF3B30;
+}
+
+.colorWarning {
+  color: #FFCC00;
+}
+
+.colorPrimary {
+  color: #2688EB;
+}
+
+.colorSuccess {
+  color: #34C759;
+}
+
+.btnActive {
+  background-color: #FF3B30;
+  &:hover {
+    background-color: #2aae4b;
+  }
+}
+
+.btnWarning {
+  background-color: #FFCC00 !important;
+  span {
+    color: var(#00000000);
+  }
+  &:hover {
+    background-color: #e9bb04 !important;
+  }
+}
+
+.btnPrimary {
+  background-color: #2688EB;
+  &:hover {
+    background-color: #2aae4b;
+  }
+}
+
+.btnSuccess {
+  background-color: #34C759;
+  &:hover {
+    background-color: #2aae4b;
+  }
+}

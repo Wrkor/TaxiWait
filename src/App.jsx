@@ -1,6 +1,6 @@
 import { useActiveVkuiLocation, usePopout } from '@vkontakte/vk-mini-apps-router'
 import { Epic, SplitCol, SplitLayout, View } from '@vkontakte/vkui'
-import styles from './App.module.scss'
+import './App.scss'
 import { AppModalRoot, AppTabBar } from './components/index'
 import globalConstants from './config/globalConstants'
 import { enableSwipe } from './helpers'
@@ -11,20 +11,19 @@ export const App = () => {
   const { view: activeView, panel: activePanel = globalConstants.panel.map } = useActiveVkuiLocation()
   const routerPopout = usePopout()
 
+  enableSwipe()
   useOnboardSlides()
   useAccount()
-  enableSwipe()
   useMonitoring()
 
   return (
     <SplitLayout modal={<AppModalRoot />} popout={routerPopout}>
-      <SplitCol className={styles.col}>
-         <Epic
+      <SplitCol className="bgContent">
+        <Epic
           activeStory={activeView ?? globalConstants.routes.main}
           tabbar={
             <AppTabBar
               activeStory={activeView}
-              isHidden={false}
             />
           }
         >

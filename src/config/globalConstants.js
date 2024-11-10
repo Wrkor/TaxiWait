@@ -25,6 +25,7 @@ export const globalConstants = {
     onboarding: 'onboarding',
     confirmOrders: 'confirmOrders',
     confirmRoad: 'confirmRoad',
+    mapRoad: 'mapRoad',
     monitoringRoad: 'monitoringRoad',
   },
 	storage: {

@@ -1,0 +1,11 @@
+.container {
+	user-select: none;
+}
+
+.body {
+	background-color: var(--vkui--color_background_content);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+	margin-top: 60px;
+}

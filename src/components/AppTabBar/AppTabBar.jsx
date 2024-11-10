@@ -2,14 +2,15 @@ import { Icon28CarOutline, Icon28UserCircleOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Badge, Tabbar, TabbarItem } from '@vkontakte/vkui'
 import globalConstants from '../../config/globalConstants'
-import { useMonitoring } from '../../hooks/'
+import { useMonitoringData, usePlatforms } from '../../hooks/'
 
-const AppTabBar = ({ activeStory, isHidden }) => {
+const AppTabBar = ({ activeStory }) => {
   const routeNavigator = useRouteNavigator();
-  const { isMonitoring, isCompleteCancel, isCompleteSuccess } = useMonitoring();
+  const { isMonitoringRun, isMonitoringSuccess } = useMonitoringData();
+  const {isMobile, isFocusedInput} = usePlatforms()
 
   return (
-    <Tabbar hidden={isHidden}>
+    <Tabbar mode="vertical" hidden={isMobile && isFocusedInput}>
       <TabbarItem
         onClick={() => routeNavigator.push(globalConstants.routes.main)}
         selected={activeStory === globalConstants.view.monitoring}
@@ -22,14 +23,14 @@ const AppTabBar = ({ activeStory, isHidden }) => {
         onClick={() => routeNavigator.push(globalConstants.routes.account)}
         selected={activeStory === globalConstants.view.account}
         data-story={activeStory === globalConstants.view.account}
-        indicator={
-          isMonitoring ? 
-            <Badge mode="prominent" aria-label="Новые уведомления" />
-          :
-          (isCompleteCancel || isCompleteSuccess) &&
-          <Badge mode="new" aria-label="Новые уведомления" />
-        }
         text="Профиль"
+        indicator={
+          isMonitoringRun ? 
+            <Badge mode="prominent" />
+          :
+          (isMonitoringSuccess) &&
+          <Badge mode="new"/>
+        }
       >
         <Icon28UserCircleOutline />
       </TabbarItem>

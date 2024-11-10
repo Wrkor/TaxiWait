@@ -12,7 +12,7 @@ const AppModalRoot = () => {
 
   return (
     <ModalRoot activeModal={activeModal} onClose={onClose}>
-      {/* <ModalPage id={globalConstants.modal.confirmOrders} onClose={onClose}>
+      {/* <ModalPage >
         <DishModal onClose={onClose} />
       </ModalPage>
       <ModalPage id={globalConstants.modal.confirmRoad} onClose={onClose}>

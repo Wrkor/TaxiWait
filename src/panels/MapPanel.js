@@ -1,16 +1,14 @@
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Panel, PanelHeader } from '@vkontakte/vkui'
-import { useState } from 'react'
+import { MapContainer, SwipeableRoadPanel } from '../components'
 
-export const MapPanel = ({ id, fetchedUser }) => {
-  const routeNavigator = useRouteNavigator()
-  const [simple, setSimple] = useState('one')
-
+export const RoadMapPanel = ({ id }) => {
   return (
     <Panel id={id}>
-      <PanelHeader>Жду такси</PanelHeader>
+      <PanelHeader delimiter="none">Жду такси</PanelHeader>
+      <MapContainer />
+      <SwipeableRoadPanel />
     </Panel>
   )
 }
 
-export default MapPanel
+export default RoadMapPanel

@@ -8,7 +8,7 @@ export const AccountPanel = ({ id, fetchedUser }) => {
 
   return (
     <Panel id={id}>
-      <PanelHeader>Профиль</PanelHeader>
+      <PanelHeader delimiter="none" >Профиль</PanelHeader>
     </Panel>
   )
 }
