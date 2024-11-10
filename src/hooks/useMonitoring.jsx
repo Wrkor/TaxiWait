@@ -12,11 +12,11 @@ export const useMonitoring = () => {
   const account = dataContext?.data?.account
 
   useEffect(() => {
-    if (!account || !!monitoring) {
+    if (!account) {
       setLoading(false)
     }
-    
-    async () => {
+
+    const fetching = async () => {
       try {
         const monitoring = await getUserActiveMonitoring(account.id)
   
@@ -32,7 +32,8 @@ export const useMonitoring = () => {
         setLoading(false)
       }
     }
-  }, [monitoring, account])
+    fetching()
+  }, [account])
 
   return { isLoading, error, monitoring }
 }

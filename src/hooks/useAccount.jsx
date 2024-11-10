@@ -11,13 +11,10 @@ export const useAccount = () => {
   const account = dataContext?.data?.account
 
   useEffect(() => {
-    if (!account?.isAuthVK) {
-      setLoading(false)
-    }
-    async () => {
+    setLoading(true)
+    const fetching = async () => {
       try {
         const userVK = await bridge.send('VKWebAppGetUserInfo')
-  
         dataContext?.setData({
           ...dataContext?.data,
           account: {
@@ -33,7 +30,8 @@ export const useAccount = () => {
         setLoading(false)
       }
     }
-  }, [account])
+    fetching()
+  }, [])
 
   return {
     isLoading,

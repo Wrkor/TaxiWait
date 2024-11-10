@@ -1,17 +1,17 @@
 import { Icon28ErrorCircleOutline } from '@vkontakte/icons'
 import { Snackbar } from '@vkontakte/vkui'
-import styles from './ErrorSnackbar.module.scss'
+import classes from './SnackbarError.module.scss'
 
-const ErrorSnackbar = ({ onClose, text, duration, ...props }) => (
+const SnackbarError = ({ onClose, text, duration, ...props }) => (
   <Snackbar
     {...props}
     placement="top"
     duration={duration ?? 2000}
     onClose={onClose}
-    before={<Icon28ErrorCircleOutline className={styles.errorIcon} />}
+    before={<Icon28ErrorCircleOutline className={classes.errorIcon} />}
   >
     {text}
   </Snackbar>
 );
 
-export default ErrorSnackbar;
+export default SnackbarError;

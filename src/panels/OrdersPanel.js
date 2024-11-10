@@ -1,16 +1,18 @@
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Icon28ArticleOutline } from '@vkontakte/icons'
-
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Panel, PanelHeader, PanelHeaderBack, Placeholder } from '@vkontakte/vkui'
-import { useState } from 'react'
 
-export const OrdersPanel = ({ id, fetchedUser }) => {
+export const OrdersPanel = ({ id }) => {
   const routeNavigator = useRouteNavigator()
-  const [simple, setSimple] = useState('one')
 
   return (
     <Panel id={id}>
-      <PanelHeader before={<PanelHeaderBack onClick={() => routeNavigator.back()} />}>Все заказы</PanelHeader>
+      <PanelHeader 
+        before={<PanelHeaderBack onClick={() => routeNavigator.back()} />}
+      >
+        Все заказы
+      </PanelHeader>
+
       <Placeholder
           icon={<Icon28ArticleOutline />}
           stretched

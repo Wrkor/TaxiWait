@@ -11,9 +11,9 @@ export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
   useEffect(() => {
 		const result = !!roadTo && !!roadFrom
 
+		SetRoadSelect(!!roadTo && !!roadFrom)
 		if (result) {
 			console.log("REQUEST_PRICE_ROAD")
-			SetRoadSelect(true)
 		}
   }, [roadTo, roadFrom])
 

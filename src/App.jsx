@@ -1,15 +1,16 @@
 import { useActiveVkuiLocation, usePopout } from '@vkontakte/vk-mini-apps-router'
 import { Epic, SplitCol, SplitLayout, View } from '@vkontakte/vkui'
 import './App.scss'
-import { AppModalRoot, AppTabBar } from './components/index'
+import { AppModalRoot, AppTabBar, SnackbarError, SnackbarSuccess } from './components/index'
 import globalConstants from './config/globalConstants'
 import { enableSwipe } from './helpers'
-import { useAccount, useMonitoring, useOnboardSlides } from './hooks'
+import { useAccount, useMonitoring, useOnboardSlides, useSnackbar } from './hooks'
 import { AccountPanel, MapPanel, OrdersPanel } from './panels/'
 
 export const App = () => {
   const { view: activeView, panel: activePanel = globalConstants.panel.map } = useActiveVkuiLocation()
   const routerPopout = usePopout()
+  const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError } = useSnackbar()
 
   enableSwipe()
   useOnboardSlides()
@@ -35,6 +36,14 @@ export const App = () => {
             <MapPanel id={globalConstants.panel.map} />
             <OrdersPanel id={globalConstants.panel.orders} />
           </View>
+          {
+            !!snackbarSuccess && 
+            <SnackbarSuccess onClose={() => SetSnackbarSuccess("")} text={snackbarSuccess}/>
+          }
+          {
+            !!snackbarError && 
+            <SnackbarError onClose={() => SetSnackbarError("")} text={snackbarError}/>
+          }
         </Epic> 
       </SplitCol>
     </SplitLayout>

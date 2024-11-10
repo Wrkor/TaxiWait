@@ -1,41 +1,36 @@
 import { Icon24ChevronCompactRight, Icon28ArticleOutline, Icon28CarOutline, Icon28Notifications, Icon28VideoCircleOutline, Icon28ViewOutline } from '@vkontakte/icons'
-import bridge from '@vkontakte/vk-bridge'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Avatar, Banner, Cell, Div, Panel, PanelHeader, SimpleCell, Switch } from '@vkontakte/vkui'
-import { useEffect, useState } from 'react'
 import globalConstants from '../config/globalConstants'
+import { useMonitoringData } from '../hooks'
+import useAccountData from '../hooks/useAccountData'
 
-export const AccountPanel = ({ id, fetchedUser }) => {
-    const routerNavigator = useRouteNavigator()
-    const [simple, setSimple] = useState('one')
-    const [userInfo, setUserInfo] = useState(null)
-
-    useEffect(() => {
-        async function getUserInfo() {
-            const userInfo = await bridge.send('VKWebAppGetUserInfo')
-            setUserInfo(userInfo)
-        }
-        getUserInfo()
-    })
+export const AccountPanel = ({ id }) => {
+    const routeNavigator = useRouteNavigator()
+    const { userVK } = useAccountData()
+    const { isMonitoringRun } = useMonitoringData()
 
     return (
         <Panel id={id}>
             <PanelHeader>
                 Профиль
             </PanelHeader>
-            <Div>
-                <Banner
-                    mode="image"
-                    header="Еще ведем мониторинг цены"
-                    subheader="Прошло 3 минуты"
-                    asideMode="expand"
-                    background={<div style={{backgroundColor: '#2688eb'}}></div>}
-                    before={<Icon28CarOutline />}
-                />
+            <Div> 
+                {
+                    isMonitoringRun &&
+                    <Banner
+                        mode="image"
+                        header="Еще ведем мониторинг цены"
+                        asideMode="expand"
+                        onClick={() => routeNavigator.push(globalConstants.routes.main)}
+                        background={<div style={{backgroundColor: '#2688eb'}}></div>}
+                        before={<Icon28CarOutline />}
+                    />
+                }
             </Div>
             <SimpleCell subtitle="1 уровень 3 раза ждун такси" before={
-                <Avatar size={52} src={userInfo && userInfo?.photo_200} gradientColor="blue" />}>
-                {userInfo && userInfo?.first_name} {userInfo && userInfo?.last_name}
+                <Avatar size={52} src={userVK && userVK?.photo_200} gradientColor="blue" />}>
+                {userVK && userVK?.first_name} {userVK && userVK?.last_name}
             </SimpleCell>
             <Cell
                 expandable="auto"
@@ -49,7 +44,7 @@ export const AccountPanel = ({ id, fetchedUser }) => {
                 before={<Icon28ArticleOutline />}
                 subtitle="Стоимость, статусы, оценки"
                 after={<Icon24ChevronCompactRight />}
-                onClick={()=>{routerNavigator.push("/account/orders")}}
+                onClick={()=>{routeNavigator.push("/account/orders")}}
             >
                 Все заказы
             </Cell>
@@ -66,7 +61,7 @@ export const AccountPanel = ({ id, fetchedUser }) => {
                 before={<Icon28ViewOutline />}
                 subtitle="Включено"
                 after={<Icon24ChevronCompactRight />}
-                onClick={()=>routerNavigator.showModal(globalConstants.modal.confirmShareOrder)}
+                onClick={()=>routeNavigator.showModal(globalConstants.modal.confirmShareOrder)}
             >
                 Отображение заказов
             </Cell>
