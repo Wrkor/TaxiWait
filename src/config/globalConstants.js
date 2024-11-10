@@ -27,12 +27,9 @@ export const globalConstants = {
     confirmRoad: 'confirmRoad',
     mapRoad: 'mapRoad',
     monitoringRoad: 'monitoringRoad',
+    confirmShareOrder: 'confirmShareOrder'
   },
 	storage: {
-    onboarding: {
-			key: 'onboarding',
-			confrim: "confrim",
-		},
 		confirmOrders: {
 			key: 'confirmOrders',
 			true: true,
@@ -45,7 +42,7 @@ export const globalConstants = {
 		},
 	},
   app: {
-    id: 52635210,
+    id: 52634961,
   },
   map: {
     token: "",

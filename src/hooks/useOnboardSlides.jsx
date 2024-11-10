@@ -1,26 +1,25 @@
 import bridge from '@vkontakte/vk-bridge'
 import { useEffect } from 'react'
-import globalConstants from '../config/globalConstants'
 import { mockOnboardingSlides } from '../config/mockOnboardingSlides'
-import { appStorageGet, appStorageSet } from '../helpers'
+import { onbordingShowGet, onbordingShowSet } from '../helpers'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import globalConstants from '../config/globalConstants'
 
 export const useOnboardSlides = () => {
 
+  const routerNavigator = useRouteNavigator()
+
   useEffect(() => {
     const showOnboarding = async () => {
-      const storageKeysResult = await appStorageGet([globalConstants.storage.onboarding.key])
+      const isOnbordingWasShown = await onbordingShowGet()
 
-      if (storageKeysResult?.keys?.[0]?.value !== globalConstants.storage.onboarding.confrim) {
+      if(isOnbordingWasShown) return
 
-        const showOnboardSlidesResult = await bridge.send(
-          'VKWebAppShowSlidesSheet',
-          mockOnboardingSlides,
-        );
+      const showOnboardSlidesResult = await bridge.send('VKWebAppShowSlidesSheet', mockOnboardingSlides);
 
-        appStorageSet(
-          globalConstants.storage.onboarding.key,
-          showOnboardSlidesResult.action,
-        )
+      if(showOnboardSlidesResult.result){
+        await onbordingShowSet()
+        routerNavigator.showModal(globalConstants.modal.confirmShareOrder)
       }
     }
 
