@@ -2,8 +2,12 @@ import bridge from '@vkontakte/vk-bridge'
 import { useEffect } from 'react'
 import { mockOnboardingSlides } from '../config/mockOnboardingSlides'
 import { onbordingShowGet, onbordingShowSet } from '../helpers'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import globalConstants from '../config/globalConstants'
 
 export const useOnboardSlides = () => {
+
+  //const routerNavigator = useRouteNavigator()
 
   useEffect(() => {
     const showOnboarding = async () => {
@@ -15,6 +19,7 @@ export const useOnboardSlides = () => {
 
       if(showOnboardSlidesResult.result){
         await onbordingShowSet()
+        //routerNavigator.showModal(globalConstants.modal.confirmShareOrder)
       }
     }
 

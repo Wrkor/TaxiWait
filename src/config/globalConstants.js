@@ -26,6 +26,7 @@ export const globalConstants = {
     confirmOrders: 'confirmOrders',
     confirmRoad: 'confirmRoad',
     monitoringRoad: 'monitoringRoad',
+    confirmShareOrder: 'confirmShareOrder'
   },
 	storage: {
 		confirmOrders: {
