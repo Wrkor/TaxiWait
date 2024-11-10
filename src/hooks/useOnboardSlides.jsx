@@ -7,7 +7,7 @@ import globalConstants from '../config/globalConstants'
 
 export const useOnboardSlides = () => {
 
-  //const routerNavigator = useRouteNavigator()
+  const routerNavigator = useRouteNavigator()
 
   useEffect(() => {
     const showOnboarding = async () => {
@@ -19,7 +19,7 @@ export const useOnboardSlides = () => {
 
       if(showOnboardSlidesResult.result){
         await onbordingShowSet()
-        //routerNavigator.showModal(globalConstants.modal.confirmShareOrder)
+        routerNavigator.showModal(globalConstants.modal.confirmShareOrder)
       }
     }
 

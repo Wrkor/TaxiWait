@@ -9,9 +9,6 @@ export const MapPanel = ({ id, fetchedUser }) => {
   return (
     <Panel id={id}>
       <PanelHeader>Жду такси</PanelHeader>
-      <div>
-        Саша лох
-      </div>
     </Panel>
   )
 }

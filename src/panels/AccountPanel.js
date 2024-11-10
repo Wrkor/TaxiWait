@@ -1,11 +1,12 @@
 import bridge from '@vkontakte/vk-bridge'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Icon28Notifications, Icon28ArticleOutline, Icon28VideoCircleOutline, Icon28ViewOutline, Icon24ChevronCompactRight, Icon28CarOutline } from '@vkontakte/icons'
-import { Panel, PanelHeader, Avatar, SimpleCell, Image, Banner, Div, Cell, Switch } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Avatar, SimpleCell, Banner, Div, Cell, Switch } from '@vkontakte/vkui'
 import { useEffect, useState } from 'react'
+import globalConstants from '../config/globalConstants'
 
 export const AccountPanel = ({ id, fetchedUser }) => {
-    const routeNavigator = useRouteNavigator()
+    const routerNavigator = useRouteNavigator()
     const [simple, setSimple] = useState('one')
     const [userInfo, setUserInfo] = useState(null)
 
@@ -48,6 +49,7 @@ export const AccountPanel = ({ id, fetchedUser }) => {
                 before={<Icon28ArticleOutline />}
                 subtitle="Стоимость, статусы, оценки"
                 after={<Icon24ChevronCompactRight />}
+                onClick={()=>{routerNavigator.push("/account/orders")}}
             >
                 Все заказы
             </Cell>
@@ -64,7 +66,7 @@ export const AccountPanel = ({ id, fetchedUser }) => {
                 before={<Icon28ViewOutline />}
                 subtitle="Включено"
                 after={<Icon24ChevronCompactRight />}
-                //onClick={() => void routeNavigator.showModal(EModal.CONFIRM_SHARE_ORDER)}
+                onClick={()=>routerNavigator.showModal(globalConstants.modal.confirmShareOrder)}
             >
                 Отображение заказов
             </Cell>

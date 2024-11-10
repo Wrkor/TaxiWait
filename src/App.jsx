@@ -30,6 +30,7 @@ export const App = () => {
         >
           <View id={globalConstants.view.account} activePanel={activePanel}>
             <AccountPanel id={globalConstants.panel.account} />
+            <OrdersPanel id={globalConstants.panel.orders} />
           </View>
           <View id={globalConstants.view.monitoring} activePanel={activePanel}>
             <MapPanel id={globalConstants.panel.map} />

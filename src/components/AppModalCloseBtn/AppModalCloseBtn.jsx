@@ -9,7 +9,7 @@ const AppModalCloseBtn = ({ onClose }) => {
   return (
     !isMobile 
     ?
-      <PanelHeaderButton className={styles.headerCloseBtn} onClick={onClose}>
+      <PanelHeaderButton className={styles.headerCloseBtn} onClick={onClose} aria-label='closeModal'>
         <Icon24Dismiss />
       </PanelHeaderButton>
     :
