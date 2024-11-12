@@ -2,15 +2,14 @@ import { Icon28CarOutline, Icon28UserCircleOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Badge, Tabbar, TabbarItem } from '@vkontakte/vkui'
 import globalConstants from '../../config/globalConstants'
-import { useMonitoringData, usePlatforms } from '../../hooks/'
+import { useMonitoringData } from '../../hooks/'
 
 const AppTabBar = ({ activeStory }) => {
   const routeNavigator = useRouteNavigator();
   const { isMonitoringRun, isMonitoringSuccess } = useMonitoringData();
-  const {isMobile, isFocusedInput} = usePlatforms()
 
   return (
-    <Tabbar mode="vertical" hidden={isMobile && isFocusedInput}>
+    <Tabbar mode="vertical">
       <TabbarItem
         onClick={() => routeNavigator.push(globalConstants.routes.main)}
         selected={activeStory === globalConstants.view.monitoring}

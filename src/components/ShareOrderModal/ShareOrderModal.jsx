@@ -1,66 +1,72 @@
-import { useEffect, useState  } from 'react';
-import { Button, Div, ModalPageHeader, Separator, FormLayoutGroup, FormItem, RadioGroup, Radio} from '@vkontakte/vkui';
-import AppModalCloseBtn from '../AppModalCloseBtn/AppModalCloseBtn';
-import { shareOrderModalSet, shareOrderModalGet } from '../../helpers/index'
-
+import { Button, Div, FormItem, FormLayoutGroup, ModalPageHeader, Radio, RadioGroup, Separator } from '@vkontakte/vkui'
+import { useEffect, useState } from 'react'
+import { shareOrderModalGet, shareOrderModalSet } from '../../helpers/index'
+import AppModalCloseBtn from '../AppModalCloseBtn/AppModalCloseBtn'
+import AppPanelSpinner from '../AppPanelSpinner/AppPanelSpinner'
 
 export const ShareOrderModal = ({ onClose, ...props }) => {
-    //const [isDefaulOrederPulic, SetDefaultOrderPublic] = useState(false) 
-    //let isDefaulOrederPulic = false
-    //console.log(isDefaulOrederPulic)
-
-    //let isCurrentOrderPublic = isDefaulOrederPulic
+    const [isDefaulOrederPulic, SetDefaultOrderPublic] = useState(false) 
+    const [isLoading, SetLoading] = useState(true) 
 
     const onSaveClick = async () => {
-        //await shareOrderModalSet(isCurrentOrderPublic)
+        await shareOrderModalSet(isDefaulOrederPulic)
         onClose();
     };
 
-
-    // useEffect(() => {
-    //     const showOnboarding = async () => {
-    //         let buffer = await shareOrderModalGet()
-    //         console.log("in get:"+buffer)
-    //         SetDefaultOrderPublic(buffer)
-    //     }
+    useEffect(() => {
+        const showOnboarding = async () => {
+            const buffer = await shareOrderModalGet()
+            SetDefaultOrderPublic(buffer)
+            SetLoading(false)
+        }
     
-    //     showOnboarding()
-    //   })
+        showOnboarding()
+    }, [])
 
     return (
-        <>
-            <ModalPageHeader noSeparator after={<AppModalCloseBtn onClose={onClose} />}>Отображение заказов</ModalPageHeader>
-            <Separator />
-            <FormLayoutGroup>
-                <FormItem>
-                    <RadioGroup>
-                        <Radio
-                            value="Включено"
-                            name="radio"
-                            //defaultChecked={isDefaulOrederPulic}
-                            description="Показываю свои заказы и вижу заказы пользователей"
-                            //onChange={()=>{isCurrentOrderPublic = !isCurrentOrderPublic}}
-                        >
-                            Включено
-                        </Radio>
-                        <Radio
-                            value="Отключено"
-                            name="radio"
-                            //defaultChecked={!isDefaulOrederPulic}
-                            description="Не показываю свои заказы и не вижу заказы пользователей"
-                            //onChange={()=>{isCurrentOrderPublic = !isCurrentOrderPublic}}
-                        >
-                            Отключено
-                        </Radio>
-                    </RadioGroup>
-                </FormItem>
-            </FormLayoutGroup>
-            <Div>
-                <Button onClick={onSaveClick} stretched size="l">
-                    Сохранить
-                </Button>
-            </Div>
-        </>
+        <div> 
+            {
+            !isLoading
+            ?
+            <>
+                <ModalPageHeader noSeparator after={<AppModalCloseBtn onClose={onClose} />}>
+                    Отображение заказов
+                </ModalPageHeader>
+                <Separator />
+                <FormLayoutGroup>
+                    <FormItem>
+                        <RadioGroup>
+                            <Radio
+                                value="Включено"
+                                name="radio"
+                                checked={isDefaulOrederPulic}
+                                description="Показываю свои заказы и вижу заказы пользователей"
+                                onChange={()=>{SetDefaultOrderPublic(true)}}
+                            >
+                                Включено
+                            </Radio>
+                            <Radio
+                                value="Отключено"
+                                name="radio"
+                                checked={!isDefaulOrederPulic}
+                                description="Не показываю свои заказы и не вижу заказы пользователей"
+                                onChange={()=>{ SetDefaultOrderPublic(false)}}
+                            >
+                                Отключено
+                            </Radio>
+                        </RadioGroup>
+                    </FormItem>
+                </FormLayoutGroup>
+                <Div>
+                    <Button onClick={onSaveClick} stretched size="l">
+                        Сохранить
+                    </Button>
+                </Div>
+            </>
+            :
+                <AppPanelSpinner/>
+            }
+        </div>
     );
 }
 export default ShareOrderModal
