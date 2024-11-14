@@ -1,40 +1,33 @@
 import { Button, Slider, Spacing, Title } from '@vkontakte/vkui'
 import { useEffect } from 'react'
 import { AppPanelSpinner } from '..'
-import { useMapData, useMonitoringData, usePriceData } from '../../hooks'
+import { useMapContext, useMonitoringContext, useSnackbar, useTaxiContext } from '../../hooks'
 
 export const MonitoringRunContainer = () => {
-	const { price, SetPrice, discount, SetDiscount, discountPrice, SetDiscountPrice } = usePriceData()
-	const { SetMonitoringRun } = useMonitoringData()
-	const { roadFrom, roadTo, isRoadSelect } = useMapData()
+	const { price, SetPrice, discount, SetDiscount, discountPrice, SetDiscountPrice } = useTaxiContext()
+	const { SetMonitoringRun } = useMonitoringContext()
+	const { isRoadSelect } = useMapContext()
+	const { SetSnackbarSuccess } = useSnackbar()
 
 	const OnClickMonitoringRun = () => {
 		console.log("REQUEST_MONITORING_RUN")
 		SetMonitoringRun(true)
+		SetSnackbarSuccess("Запущено ожидание такси")
 	}
 
-	const onChangeDiscount = (value) => {
-    const newPrice = Math.round(price * (1 - value / 100))
-    SetDiscountPrice(newPrice)
-  }
-
 	useEffect(() => {
-		onChangeDiscount(discount)
-  }, [price])
-
-	useEffect(() => {
-		onChangeDiscount(discount)
-  }, [discount])
+    SetDiscountPrice(Math.round(price * (1 - discount / 100)))
+  }, [price, discount])
 
 	useEffect(() => {
 		if (isRoadSelect) {
 			console.log("REQUEST_PRICE_ROAD")
-			SetPrice(350)
+			SetPrice(Math.round(Math.random() * 300) + 50)
 		}
   }, [isRoadSelect])
 
   return (
-		!!price ?
+		price ?
 			<div className='container'>
 				<Spacing size={8} />
 				<Title level="1" className='nonSeleted colorFirst'> 

@@ -1,13 +1,19 @@
-import { useRef } from 'react'
-import { NetworkError, SnackbarError } from '../'
-import { useMap } from '../../hooks'
+import { useEffect, useRef } from 'react'
+import { NetworkError } from '../'
+import { useMap, useSnackbar } from '../../hooks'
 import AppPanelSpinner from '../AppPanelSpinner/AppPanelSpinner'
 import styles from './MapContainer.module.scss'
 
 export const MapContainer = ({onMove, ...props}) => {
-  const mapRef = useRef(null);
-  const { mapError, isLoading, storedMapEntity } = useMap(mapRef);
-  
+  const mapRef = useRef(null)
+  const { mapError, isMapLoading } = useMap(mapRef)
+  const { SetSnackbarError } = useSnackbar()
+
+	useEffect(() => {
+		if (!!mapError)
+			SetSnackbarError("Не удалось загрузить карту")
+	}, [mapError])
+
 	return (
 		!mapError 
 		?
@@ -18,7 +24,7 @@ export const MapContainer = ({onMove, ...props}) => {
 				{...props}
 			>
 				{
-					isLoading 
+					isMapLoading 
 					? 
 						<AppPanelSpinner />
 					: 
@@ -27,7 +33,6 @@ export const MapContainer = ({onMove, ...props}) => {
 			</div>
 		:
 			<>
-				<SnackbarError text="Не удалось загрузить карту" />
 				<NetworkError text="Не удалось загрузить карту" />
 			</>
   )

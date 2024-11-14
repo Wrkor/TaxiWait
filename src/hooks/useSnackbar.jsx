@@ -1,38 +1,11 @@
-import { useContext } from 'react'
-import { DataContext } from '../context/data'
+import { useState } from 'react'
 
-const defaultValues = {
-  snackbarSuccess: "",
-  snackbarError: "",
-}
-
+/**
+ * Хук, который содержит актуальный тост, который необхдимо выкинуть
+ */
 export const useSnackbar = () => {
-  const dataContext = useContext(DataContext)
-
-  const snackbarSuccess = dataContext?.data?.snackbar?.snackbarSuccess
-  const snackbarError = dataContext?.data?.snackbar?.snackbarError
-
-  const SetSnackbarSuccess = (value) => {
-		dataContext.setData({
-      ...dataContext?.data,
-      snackbar: {
-        ...defaultValues,
-				...dataContext?.data?.snackbar,
-        snackbarSuccess: value,
-      }
-    })
-	}
-
-  const SetSnackbarError = (value) => {
-		dataContext.setData({
-      ...dataContext?.data,
-      snackbar: {
-        ...defaultValues,
-				...dataContext?.data?.snackbar,
-        snackbarError: value,
-      }
-    })
-	}
+  const [snackbarSuccess, SetSnackbarSuccess] = useState("")
+  const [snackbarError, SetSnackbarError] = useState("")
 
   return { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError }
 };

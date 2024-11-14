@@ -1,19 +1,18 @@
 import { Button, Spacing, Title } from '@vkontakte/vkui'
 import { AppPanelSpinner } from '../'
-import { useMonitoringData, usePriceData } from '../../hooks'
+import { useMonitoringContext, useTaxiContext } from '../../hooks'
 
 export const MonitoringSuccessContainer = () => {
-	const { price, discount, discountPrice } = usePriceData()
-	const { SetMonitoringRun, SetMonitoringSuccess } = useMonitoringData()
+	const { price, discount, discountPrice } = useTaxiContext()
+	const { SetMonitoringSuccess } = useMonitoringContext()
 
 	const OnClickOrderTaxi = () => {
 		console.log("REQUEST_MONITORING_GO_APP")
-		SetMonitoringRun(false)
 		SetMonitoringSuccess(false)
 	}
-
+	
   return (
-		!!price && !!discountPrice ?
+		price && discountPrice ?
 			<div className='container'>
 				<Title level="1" className='nonSeleted colorFirst'> 
 				Выполнено!

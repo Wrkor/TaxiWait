@@ -1,7 +1,7 @@
 import { PanelSpinner } from '@vkontakte/vkui'
 import styles from './AppPanelSpinner.module.scss'
 
-const AppPanelSpinner = () => {
+export const AppPanelSpinner = () => {
   return (
     <div className={styles.container}>
       <PanelSpinner size="large" height={100}>

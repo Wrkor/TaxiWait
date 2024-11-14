@@ -10,7 +10,7 @@ export const globalConstants = {
 		phone: '/api/users/code',
 		login: '/api/users/auth',
 	},
-	api: 'http://localhost:3000',
+	api: import.meta.env.VITE_API_BACKEND,
   //api: 'http://77.222.60.86:8000',
   view: {
     monitoring: 'monitoring',
@@ -30,19 +30,29 @@ export const globalConstants = {
     confirmShareOrder: 'confirmShareOrder'
   },
 	storage: {
-		confirmOrders: {
-			key: 'confirmOrders',
-			true: true,
-			false: false,
-		},
-    confirmNotification: {
-			key: 'confirmNotification',
-			true: true,
-			false: false,
-		},
+    confirmNotification: 'confirmNotification',
+    isWasShowOnboarding: 'isWasShowOnboarding',
+    isShareOrder: 'isShareOrder',
 	},
+  scope: {
+    friends:"friends", // Доступ к списку друзей пользователя.
+    photos:"photos", // Доступ к фотографиям в профиле пользователя.
+    video:"video", // Доступ к видео в профиле пользователя.
+    stories:"stories", // Доступ к историям, созданным пользователем.
+    pages:"pages", // Доступ к вики-страницам пользователя.
+    status:"status", // Доступ к статусу пользователя.
+    notes:"notes", // Доступ к заметкам пользователя.
+    notify:"notify", // Доступ к заметкам пользователя.
+    messages:"messages", // Разрешение на использование API-запросов для работы с сообщениями пользователя.
+    wall:"wall", //Возможность использовать API-запросы для работы со стеной пользователя.
+    docs:"docs", // Доступ к документам пользователя.
+    groups:"groups", //Доступ к информации о сообществах пользователя.
+    stats:"stats", // Доступ к статистике сообществ и приложений, которые администрирует пользователь.
+    group_messages:"group_messages", // Разрешение на отправку пользователю сообщений от лица сообщества, которое указано как официальное сообщество в настройках мини-приложения или игры.
+    market:"market", // Доступ к товарам, добавленным пользователем на платформу.
+  },
   app: {
-    id: 52635210,
+    id: import.meta.env.VITE_APP_ID,
   },
   map: {
     token: "",

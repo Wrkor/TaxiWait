@@ -2,11 +2,11 @@ import { Icon28CarOutline, Icon28UserCircleOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Badge, Tabbar, TabbarItem } from '@vkontakte/vkui'
 import globalConstants from '../../config/globalConstants'
-import { useMonitoringData } from '../../hooks/'
+import { useMonitoringContext } from '../../hooks/'
 
 const AppTabBar = ({ activeStory }) => {
-  const routeNavigator = useRouteNavigator();
-  const { isMonitoringRun, isMonitoringSuccess } = useMonitoringData();
+  const routeNavigator = useRouteNavigator()
+  const { isMonitoringRun, isMonitoringSuccess } = useMonitoringContext()
 
   return (
     <Tabbar mode="vertical">
@@ -15,6 +15,13 @@ const AppTabBar = ({ activeStory }) => {
         selected={activeStory === globalConstants.view.monitoring}
         data-story={globalConstants.view.monitoring}
         text="Главная"
+        indicator={
+          isMonitoringRun ? 
+            <Badge mode="prominent" />
+          :
+          (isMonitoringSuccess) &&
+          <Badge mode="new"/>
+        }
       >
         <Icon28CarOutline />
       </TabbarItem>
@@ -23,13 +30,6 @@ const AppTabBar = ({ activeStory }) => {
         selected={activeStory === globalConstants.view.account}
         data-story={activeStory === globalConstants.view.account}
         text="Профиль"
-        indicator={
-          isMonitoringRun ? 
-            <Badge mode="prominent" />
-          :
-          (isMonitoringSuccess) &&
-          <Badge mode="new"/>
-        }
       >
         <Icon28UserCircleOutline />
       </TabbarItem>

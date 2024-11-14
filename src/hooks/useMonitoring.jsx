@@ -1,41 +1,55 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getUserActiveMonitoring } from '../api/'
-import { DataContext } from '../context/data'
 import { normalizeError } from '../helpers'
+import useMonitoringContext from './useMonitoringContext'
+import useUserContext from './useUserContext'
 
+/**
+ * Хук, который проверяет состояние мониторинга
+ */
 export const useMonitoring = () => {
-  const [isLoading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const dataContext = useContext(DataContext)
-  
-  const monitoring = dataContext?.data?.monitoring
-  const account = dataContext?.data?.account
+  const [isMonitoringLoading, SetMonitoringLoading] = useState(true)
+  const [monitoringError, SetMonitoringError] = useState(null)
+  const [monitoring, SetMonitoring] = useState({})
+
+  const { SetMonitoringActive } = useMonitoringContext()
+  const { userInfo } = useUserContext()
 
   useEffect(() => {
-    if (!account) {
-      setLoading(false)
+    SetMonitoringActive(monitoring)
+  }, [monitoring])
+
+  useEffect(() => {
+    if (!userInfo || !userInfo?.id) {
+      SetMonitoringLoading(false)
+      return
     }
 
     const fetching = async () => {
       try {
-        const monitoring = await getUserActiveMonitoring(account.id)
-  
-        dataContext.setData({
-          ...dataContext?.data,
-          monitoring,
-        });
+        const data = await getUserActiveMonitoring(userInfo?.id)
+
+        // Мониторинг получен
+
+        if (!!data) {
+          SetMonitoring(data)
+        }
       } 
       catch (e) {
-        setError(normalizeError('Ошибка получения активного заказа пользователя:'))
+
+        // Получена ошибка
+
+        console.error("[ERROR] useMonitoring: ", e)
+        SetMonitoringError(normalizeError('Ошибка получения активного заказа'))
       }
       finally {
-        setLoading(false)
+        SetMonitoringLoading(false)
       }
     }
     fetching()
-  }, [account])
+  }, [userInfo])
 
-  return { isLoading, error, monitoring }
+  return { isMonitoringLoading, monitoringError, monitoring }
 }
 
 export default useMonitoring

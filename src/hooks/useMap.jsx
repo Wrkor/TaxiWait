@@ -4,9 +4,12 @@ import { useEffect, useState } from 'react'
 import globalConstants from '../config/globalConstants'
 import { useTheme } from './'
 
+/**
+ * Хук, который инциализирует ВК карту (хук не применяется, так как VK map не работает)
+ */
 export const useMap = (mapRef) => {
-  const [isLoading, setLoading] = useState(true)
-  const [mapError, setMapError] = useState()
+  const [isMapLoading, SetMapLoading] = useState(true)
+  const [mapError, SetMapError] = useState(null)
   const [storedMapEntity, setStoredMapEntity] = useState()
   const { isDarkTheme } = useTheme()
 
@@ -16,6 +19,7 @@ export const useMap = (mapRef) => {
     if (!mapRef.current) {
       return;
     }
+
     mmrgl.prewarm()
     mmrgl.accessToken = globalConstants.map.token
 
@@ -30,12 +34,12 @@ export const useMap = (mapRef) => {
     connectedMapEntity.setStyle(mapStyle)
     setStoredMapEntity(connectedMapEntity)
 
-    connectedMapEntity.on('load', () => setLoading(false));
-    connectedMapEntity.on('error', (error) => setMapError(error));
+    connectedMapEntity.on('load', () => SetMapLoading(false))
+    connectedMapEntity.on('error', (error) => SetMapError(error))
     return () => connectedMapEntity.remove()
-  }, [mapRef, isDarkTheme]);
+  }, [mapRef, isDarkTheme])
 
-  return { mapError, isLoading, storedMapEntity };
+  return { mapError, isMapLoading, storedMapEntity }
 };
 
 export default useMap

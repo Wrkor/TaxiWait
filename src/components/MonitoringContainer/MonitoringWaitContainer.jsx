@@ -1,13 +1,13 @@
 import { Button, Spacing, Title } from '@vkontakte/vkui'
-import { useMonitoringData, usePriceData } from '../../hooks'
+import { useMonitoringContext, useTaxiContext } from '../../hooks'
 
 export const MonitoringWaitContainer = () => {
-	const { price, discount, discountPrice } = usePriceData()
-	const { SetMonitoringRun } = useMonitoringData()
+	const { price, discount, discountPrice } = useTaxiContext()
+	const { SetMonitoringSuccess } = useMonitoringContext()
 
 	const OnClickMonitoringCancel = () => {
 		console.log("REQUEST_MONITORING_CANCEL")
-		SetMonitoringRun(false)
+		SetMonitoringSuccess(true)
 	}
 
   return (

@@ -2,13 +2,22 @@ import { Icon24ChevronCompactRight, Icon28ArticleOutline, Icon28CarOutline, Icon
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Avatar, Banner, Cell, Div, Panel, PanelHeader, SimpleCell, Switch } from '@vkontakte/vkui'
 import globalConstants from '../config/globalConstants'
-import { useMonitoringData } from '../hooks'
-import useAccountData from '../hooks/useAccountData'
+import { useMapContext, useMonitoringContext, useTaxiContext } from '../hooks'
+import useUserContext from '../hooks/useUserContext'
 
 export const AccountPanel = ({ id }) => {
     const routeNavigator = useRouteNavigator()
-    const { userVK } = useAccountData()
-    const { isMonitoringRun } = useMonitoringData()
+    const { userInfo, userContext, sign, vkToken } = useUserContext()
+    const { monitoringContext, isMonitoringRun } = useMonitoringContext()
+    const { mapContext } = useMapContext()
+    const { taxiContext } = useTaxiContext()
+
+    console.log("userContext", userContext?.user)
+    console.log("monitoringContext", monitoringContext?.monitoring)
+    console.log("mapContext", mapContext?.map)
+    console.log("taxiContext", taxiContext?.taxi)
+    console.log("sign", sign)
+    console.log("vkToken", vkToken)
 
     return (
         <Panel id={id}>
@@ -29,8 +38,8 @@ export const AccountPanel = ({ id }) => {
                 }
             </Div>
             <SimpleCell subtitle="1 уровень 3 раза ждун такси" before={
-                <Avatar size={52} src={userVK && userVK?.photo_200} gradientColor="blue" />}>
-                {userVK && userVK?.first_name} {userVK && userVK?.last_name}
+                <Avatar size={52} src={userInfo && userInfo?.photo_200} gradientColor="blue" />}>
+                {userInfo && userInfo?.first_name} {userInfo && userInfo?.last_name}
             </SimpleCell>
             <Cell
                 expandable="auto"

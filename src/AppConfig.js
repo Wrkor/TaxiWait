@@ -4,7 +4,10 @@ import { RouterProvider } from '@vkontakte/vk-mini-apps-router'
 import { AdaptivityProvider, AppRoot, ConfigProvider } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 import { App } from './App'
-import { DataContextProvider } from './context/data'
+import MapContext from './context/MapProvider'
+import MonitoringContext from './context/MonitoringProvider'
+import TaxiContext from './context/TaxiProvider'
+import UserContext from './context/UserProvider'
 import { router } from './routes'
 import { transformVKBridgeAdaptivity } from './utils/transformVKBridgeAdaptivity'
 
@@ -24,9 +27,15 @@ export const AppConfig = () => {
       <AdaptivityProvider {...adaptivity}>
         <AppRoot mode="full" safeAreaInsets={vkBridgeInsets}>
           <RouterProvider router={router}>
-            <DataContextProvider>
-              <App />
-            </DataContextProvider>
+            <UserContext>
+              <TaxiContext>
+                <MonitoringContext>
+                  <MapContext>
+                    <App />
+                  </MapContext>
+                </MonitoringContext>
+              </TaxiContext>
+            </UserContext>
           </RouterProvider>
         </AppRoot>
       </AdaptivityProvider>

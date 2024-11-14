@@ -4,18 +4,26 @@ import './App.scss'
 import { AppModalRoot, AppTabBar, SnackbarError, SnackbarSuccess } from './components/index'
 import globalConstants from './config/globalConstants'
 import { enableSwipe } from './helpers'
-import { useAccount, useMonitoring, useOnboardSlides, useSnackbar } from './hooks'
+import { useAllowedScopes, useAuthToken, useGeodata, useLaunchParams, useMonitoring, useOnboardSlides, useSnackbar, useUserInfo } from './hooks'
 import { AccountPanel, MapPanel, OrdersPanel } from './panels/'
 
 export const App = () => {
   const { view: activeView, panel: activePanel = globalConstants.panel.map } = useActiveVkuiLocation()
   const routerPopout = usePopout()
+  
   const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError } = useSnackbar()
 
   enableSwipe()
+
+  // Данные, которые запрашиваются сразу при маунтинге приложения
+
+  useUserInfo()
+  useLaunchParams()
+  useGeodata()
+  useAuthToken()
   useOnboardSlides()
-  useAccount()
   useMonitoring()
+  useAllowedScopes()
 
   return (
     <SplitLayout modal={<AppModalRoot />} popout={routerPopout}>

@@ -1,11 +1,9 @@
 import { CustomSelect } from '@vkontakte/vkui'
 import { useEffect, useState } from 'react'
-import { usePlatforms } from '../../../hooks'
 
 export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputChange, onClose, onSelect, defaultValue, ...props }) => {
   const [fetching, SetFetching] = useState(false);
   const [options, SetOptions] = useState([]);
-	const { SetFocusedInput } = usePlatforms()
 
   const searchAsync = async (value) => {
 		SetFetching(true);
@@ -25,8 +23,6 @@ export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputC
 		<CustomSelect
 			{...props}
 			defaultValue={defaultValue}
-			onFocus={() => SetFocusedInput(true)}
-			onBlur={() => SetFocusedInput(false)}
 			onChange={(e) => onSelect(e?.target?.value)}
 			selectType="plain"
 			onClick={onOpen}

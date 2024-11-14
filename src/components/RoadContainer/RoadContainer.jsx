@@ -3,18 +3,15 @@ import { Separator, Spacing, Title } from '@vkontakte/vkui'
 import { useEffect } from 'react'
 import { AsyncSelect, MonitoringRunContainer } from '../'
 import { getAddress } from '../../api'
-import { useMapData } from '../../hooks'
+import { useMapContext } from '../../hooks'
 
 export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
-	const { roadFrom, SetRoadFrom, roadTo, SetRoadTo, isRoadSelect, SetRoadSelect } = useMapData()
+	const { roadFrom, SetRoadFrom, roadTo, SetRoadTo, isRoadSelect, SetRoadSelect } = useMapContext()
 
   useEffect(() => {
 		const result = !!roadTo && !!roadFrom
 
-		SetRoadSelect(!!roadTo && !!roadFrom)
-		if (result) {
-			console.log("REQUEST_PRICE_ROAD")
-		}
+		SetRoadSelect(result)
   }, [roadTo, roadFrom])
 
   return (

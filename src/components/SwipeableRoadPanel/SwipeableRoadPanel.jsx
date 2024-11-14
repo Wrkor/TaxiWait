@@ -1,16 +1,16 @@
 import { Spacing } from '@vkontakte/vkui'
 import { useEffect, useState } from 'react'
 import { MonitoringSuccessContainer, MonitoringWaitContainer, RoadContainer, SwipeableContainer } from '../'
-import { useMapData, useMonitoringData } from '../../hooks'
+import { useMapContext, useMonitoringContext } from '../../hooks'
 import { DashSVG } from '../SVG'
 
 export const SwipeableRoadPanel = () => {
   const [isFullScreenSwipeableContainer, SetFullScreenSwipeableContainer] = useState(false)
   const [isExpandSwipeableContainer, SetExpandSwipeableContainer] = useState(false)
   const [isLockSwipeableSheet, SetLockSwipeableSheet] = useState(false)
-  const {isRoadSelect} = useMapData()
+  const { isRoadSelect } = useMapContext()
 
-  const {isMonitoringRun, isMonitoringSuccess} = useMonitoringData()
+  const { isMonitoringRun, isMonitoringSuccess } = useMonitoringContext()
 
   const OnOpenSelect = () => {
 		if (!isRoadSelect) {

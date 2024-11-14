@@ -1,29 +1,42 @@
 import bridge from '@vkontakte/vk-bridge'
-import { useEffect } from 'react'
-import { mockOnboardingSlides } from '../config/mockOnboardingSlides'
-import { onbordingShowGet, onbordingShowSet } from '../helpers'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import { useEffect } from 'react'
 import globalConstants from '../config/globalConstants'
+import { mockOnboardingSlides } from '../config/mockOnboardingSlides'
+import { OnbordingShowGet, OnbordingShowSet } from '../helpers'
 
+/**
+ * Хук, который проверяет и вызывает онбординг
+ */
 export const useOnboardSlides = () => {
-
   const routerNavigator = useRouteNavigator()
 
   useEffect(() => {
-    const showOnboarding = async () => {
-      const isOnbordingWasShown = await onbordingShowGet()
+    
+    const fetching = async () => {
+      const isOnbordingWasShown = await OnbordingShowGet()
 
-      if(isOnbordingWasShown) return
+      if(isOnbordingWasShown) 
+        return
 
-      const showOnboardSlidesResult = await bridge.send('VKWebAppShowSlidesSheet', mockOnboardingSlides);
+      try {
+        const data = await bridge.send('VKWebAppShowSlidesSheet', mockOnboardingSlides);
+  
+        if(!!data.result){
+          await OnbordingShowSet("true")
+          routerNavigator.showModal(globalConstants.modal.confirmShareOrder)
+        }
+      }
+      catch (e) {
+        
+        // Получена ошибка
 
-      if(showOnboardSlidesResult.result){
-        await onbordingShowSet()
-        routerNavigator.showModal(globalConstants.modal.confirmShareOrder)
+        console.error('[ERROR] useOnboardSlides: ', e);
+        setError(normalizeError('Ошибка получения онбординга'))
       }
     }
 
-    showOnboarding()
+    fetching()
   }, [])
 }
 
