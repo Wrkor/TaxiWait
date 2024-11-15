@@ -11,7 +11,7 @@ export const globalConstants = {
 		login: '/api/users/auth',
 	},
 	api: import.meta.env.VITE_API_BACKEND,
-  //api: 'http://77.222.60.86:8000',
+	ws: import.meta.env.VITE_WS_BACKEND,
   view: {
     monitoring: 'monitoring',
     account: 'account',
@@ -57,8 +57,8 @@ export const globalConstants = {
   map: {
     token: "",
     coords: {
-      lng: 30.312654,
-      lat: 59.933418,
+      lat: 52.3431312,
+      long: 104.1940168,
     },
     zoom: 15,
     theme: {

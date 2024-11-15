@@ -1,6 +1,6 @@
 import bridge from '@vkontakte/vk-bridge'
 
-export const enableSwipe = async () => {
+export const EnableSwipe = async () => {
   if (!await bridge.supportsAsync('VKWebAppSetSwipeSettings')) {
     return;
   }

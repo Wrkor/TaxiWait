@@ -1,7 +1,7 @@
 import bridge from '@vkontakte/vk-bridge'
 import { useEffect, useState } from 'react'
 import { useUserContext } from '.'
-import { normalizeError } from '../helpers'
+import { NormalizeError } from '../helpers'
 
 /**
  * Хук, который запрашивает данные пользователя
@@ -9,13 +9,8 @@ import { normalizeError } from '../helpers'
 export const useUserInfo = () => {
   const [isUserInfoLoading, SetUserInfoLoading] = useState(true)
   const [userInfoError, SetUserInfoError] = useState(null)
-  const [userInfo, SetUserInfo] = useState({})
 
-  const { SetUserInfoActive } = useUserContext()
-
-  useEffect(() => {
-    SetUserInfoActive(userInfo)
-  }, [userInfo])
+  const { userInfo, SetUserInfo } = useUserContext()
 
   useEffect(() => {
 
@@ -35,7 +30,7 @@ export const useUserInfo = () => {
         // Получена ошибка
 
         console.error("[ERROR] useGeodata: ", e)
-        SetUserInfoError(normalizeError('Ошибка получения данных пользователя'))
+        SetUserInfoError(NormalizeError('Ошибка получения данных пользователя'))
       }
       finally {
         SetUserInfoLoading(false)

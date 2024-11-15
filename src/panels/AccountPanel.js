@@ -1,23 +1,24 @@
 import { Icon24ChevronCompactRight, Icon28ArticleOutline, Icon28CarOutline, Icon28Notifications, Icon28VideoCircleOutline, Icon28ViewOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Avatar, Banner, Cell, Div, Panel, PanelHeader, SimpleCell, Switch } from '@vkontakte/vkui'
+import { SnackbarError, SnackbarSuccess } from '../components'
 import globalConstants from '../config/globalConstants'
-import { useMapContext, useMonitoringContext, useTaxiContext } from '../hooks'
+import { useMapContext, useMonitoringContext, useSnackbarContext, useTaxiContext } from '../hooks'
 import useUserContext from '../hooks/useUserContext'
 
 export const AccountPanel = ({ id }) => {
     const routeNavigator = useRouteNavigator()
-    const { userInfo, userContext, sign, vkToken } = useUserContext()
+    const { userInfo, userContext } = useUserContext()
     const { monitoringContext, isMonitoringRun } = useMonitoringContext()
     const { mapContext } = useMapContext()
     const { taxiContext } = useTaxiContext()
+
+    const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError } = useSnackbarContext()
 
     console.log("userContext", userContext?.user)
     console.log("monitoringContext", monitoringContext?.monitoring)
     console.log("mapContext", mapContext?.map)
     console.log("taxiContext", taxiContext?.taxi)
-    console.log("sign", sign)
-    console.log("vkToken", vkToken)
 
     return (
         <Panel id={id}>
@@ -74,6 +75,14 @@ export const AccountPanel = ({ id }) => {
             >
                 Отображение заказов
             </Cell>
+            {
+                snackbarSuccess?.length > 0 && 
+                <SnackbarSuccess onClose={() => SetSnackbarSuccess("")} text={snackbarSuccess}/>
+            }
+            {
+                snackbarError?.length > 0  && 
+                <SnackbarError onClose={() => SetSnackbarError("")} text={snackbarError}/>
+            }
         </Panel>
     )
 }

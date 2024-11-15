@@ -26,7 +26,7 @@ export const useMap = (mapRef) => {
     const connectedMapEntity = new mmrgl.Map({
       container: mapRef.current,
       zoom: globalConstants.map.zoom,
-      center: [globalConstants.map.coords.lng, globalConstants.map.coords.lat],
+      center: [globalConstants.map.coords.long, globalConstants.map.coords.lat],
       style: mapStyle,
       hash: false,
     })

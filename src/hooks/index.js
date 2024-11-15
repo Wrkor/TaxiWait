@@ -9,7 +9,7 @@ import useMonitoring from './useMonitoring'
 import useMonitoringContext from './useMonitoringContext'
 import useOnboardSlides from './useOnboardSlides'
 import usePlatforms from './usePlatforms'
-import useSnackbar from './useSnackbar'
+import useSnackbarContext from './useSnackbarContext'
 import useTaxiContext from './useTaxiContext'
 import useTheme from './useTheme'
 import useUserContext from './useUserContext'
@@ -17,6 +17,6 @@ import useUserInfo from './useUserInfo'
 
 export {
   useAllowedScopes, useAuthToken, useBridgeSubscribe, useGeodata,
-  useLaunchParams, useMap, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, usePlatforms, useSnackbar, useTaxiContext, useTheme, useUserContext, useUserInfo
+  useLaunchParams, useMap, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, usePlatforms, useSnackbarContext, useTaxiContext, useTheme, useUserContext, useUserInfo
 }
 

@@ -1,7 +1,7 @@
 import bridge from '@vkontakte/vk-bridge'
 import { useEffect, useState } from 'react'
 import { useUserContext } from '.'
-import { normalizeError } from '../helpers'
+import { NormalizeError } from '../helpers'
 
 /**
  * Хук, который запрашивает параметры запуска приложения
@@ -9,13 +9,8 @@ import { normalizeError } from '../helpers'
 export const useLaunchParams = () => {
   const [isLaunchParamsLoading, SetLaunchParamsLoading] = useState(true)
   const [launchParamsError, SetLaunchParamsError] = useState(null)
-  const [userLaunchParams, SetUserLaunchParams] = useState({})
 
-  const { SetLaunchParams } = useUserContext()
-
-  useEffect(() => {
-    SetLaunchParams(userLaunchParams)
-  }, [userLaunchParams])
+  const { userLaunchParams, SetUserLaunchParams } = useUserContext()
 
   useEffect(() => {
 
@@ -25,7 +20,7 @@ export const useLaunchParams = () => {
         const data = await bridge.send('VKWebAppGetLaunchParams')
 
         // Параметры запуска получены
-
+        
         if (!!data) {
           SetUserLaunchParams(data)
         }
@@ -35,7 +30,7 @@ export const useLaunchParams = () => {
         // Получена ошибка
 
         console.error("[ERROR] useLaunchParams: ", e)
-        SetLaunchParamsError(normalizeError('Ошибка получения параметров запуска приложения'))
+        SetLaunchParamsError(NormalizeError('Ошибка получения параметров запуска приложения'))
       }
       finally {
         SetLaunchParamsLoading(false)

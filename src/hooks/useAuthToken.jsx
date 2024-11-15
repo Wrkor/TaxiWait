@@ -1,7 +1,7 @@
 import bridge from '@vkontakte/vk-bridge'
 import { useEffect, useState } from 'react'
 import globalConstants from '../config/globalConstants'
-import { normalizeError } from '../helpers'
+import { NormalizeError } from '../helpers'
 import { useUserContext } from './'
 
 /**
@@ -10,13 +10,8 @@ import { useUserContext } from './'
 export const useAuthToken = () => {
   const [isAuthTokenLoading, SetAuthTokenLoading] = useState(true)
   const [authTokenError, SetAuthTokenError] = useState(null)
-  const [userAuthToken, SetUserAuthToken] = useState({})
 
-  const { SetAuthToken, userInfo } = useUserContext()
-
-  useEffect(() => {
-    SetAuthToken(userAuthToken)
-  }, [userAuthToken])
+  const { userInfo, userAuthToken, SetUserAuthToken } = useUserContext()
 
   useEffect(() => {
     if (!userInfo) {
@@ -45,7 +40,7 @@ export const useAuthToken = () => {
         // Получена ошибка
 
         console.error("[ERROR] useAuthToken: ", e)
-        SetAuthTokenError(normalizeError('Ошибка получения токена'))
+        SetAuthTokenError(NormalizeError('Ошибка получения токена'))
       }
       finally {
         SetAuthTokenLoading(false)

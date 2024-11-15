@@ -1,20 +1,41 @@
 import { CustomSelect } from '@vkontakte/vkui'
 import { useEffect, useState } from 'react'
+import { useSnackbarContext } from '../../../hooks'
 
-export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputChange, onClose, onSelect, defaultValue, ...props }) => {
-  const [fetching, SetFetching] = useState(false);
-  const [options, SetOptions] = useState([]);
+export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputChange, onClose, onSelect, defaultValue, length, ...props }) => {
+  const [fetching, SetFetching] = useState(false)
+  const [text, SetText] = useState("Введите адрес")
+  const [options, SetOptions] = useState([])
+  const { SetSnackbarError } = useSnackbarContext()
 
   const searchAsync = async (value) => {
-		SetFetching(true);
+		if (value?.length < length) {
+			SetText("Введите адрес")
+			return
+		}
+
+		SetFetching(true)
 		onInputChange(value)
-		const options = await request(value)
-		SetOptions([...options]);
+
+		try {
+			const response = await request(value)
+
+			SetText("Ничего не нашли")
+
+			if (!!response)
+				SetOptions(response)
+
+		}
+		catch (e) {
+			SetSnackbarError("Не удалось загрузить данные")
+		}
+
 		SetFetching(false);
   };
 
 	useEffect(() => {
 		if (!!defaultValue) {
+			SetOptions([{"value": defaultValue, "label": defaultValue}])
 			searchAsync(defaultValue)
 		}
 	}, [defaultValue])
@@ -30,7 +51,7 @@ export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputC
 			onClose={onClose}
 			before={!!icon && icon}
 			options={options}
-			emptyText={"Ничего не нашли"}
+			emptyText={text}
 			searchable={true}
 			placeholder={placeholder}
 			onInputChange={e => searchAsync(e.target.value)}

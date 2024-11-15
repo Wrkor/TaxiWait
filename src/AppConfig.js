@@ -6,6 +6,7 @@ import '@vkontakte/vkui/dist/vkui.css'
 import { App } from './App'
 import MapContext from './context/MapProvider'
 import MonitoringContext from './context/MonitoringProvider'
+import SnackbarContext from './context/SnackbarProvider'
 import TaxiContext from './context/TaxiProvider'
 import UserContext from './context/UserProvider'
 import { router } from './routes'
@@ -31,7 +32,9 @@ export const AppConfig = () => {
               <TaxiContext>
                 <MonitoringContext>
                   <MapContext>
-                    <App />
+                    <SnackbarContext>
+                      <App />
+                    </SnackbarContext>
                   </MapContext>
                 </MonitoringContext>
               </TaxiContext>

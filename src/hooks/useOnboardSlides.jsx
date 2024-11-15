@@ -32,7 +32,7 @@ export const useOnboardSlides = () => {
         // Получена ошибка
 
         console.error('[ERROR] useOnboardSlides: ', e);
-        setError(normalizeError('Ошибка получения онбординга'))
+        setError(NormalizeError('Ошибка получения онбординга'))
       }
     }
 

@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { NetworkError } from '../'
-import { useMap, useSnackbar } from '../../hooks'
+import { useMap, useSnackbarContext } from '../../hooks'
 import AppPanelSpinner from '../AppPanelSpinner/AppPanelSpinner'
 import styles from './MapContainer.module.scss'
 
 export const MapContainer = ({onMove, ...props}) => {
   const mapRef = useRef(null)
   const { mapError, isMapLoading } = useMap(mapRef)
-  const { SetSnackbarError } = useSnackbar()
+  const { SetSnackbarError } = useSnackbarContext()
 
 	useEffect(() => {
 		if (!!mapError)

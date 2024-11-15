@@ -11,46 +11,49 @@ export const useUserContext = () => {
   const userGeodata = userContext?.user?.userGeodata
   const userAuthToken = userContext?.user?.userAuthToken
   const userLaunchParams = userContext?.user?.userLaunchParams
+  const userAllowedScopes = userContext?.user?.userAllowedScopes
 
-  const sign =  btoa(userLaunchParams)
-  const vkToken =  btoa(new URLSearchParams(userLaunchParams).toString())
+  const sign = userContext?.user?.sign
+  const vkToken = userContext?.user?.vkToken
 
   const SetUserAllowedScopes = (value) => {
-		userContext?.SetUser({
-      ...userContext?.user,
-      allowedScopes: value,
-    })
+		userContext?.SetUser(prev => ({
+      ...prev,
+      userAllowedScopes: value,
+    }))
 	}
 
-  const SetAuthToken = (value) => {
-		userContext?.SetUser({
-      ...userContext?.user,
+  const SetUserAuthToken = (value) => {
+		userContext?.SetUser(prev => ({
+      ...prev,
       userAuthToken: value,
-    })
-	}
+    }))
+  }
 
-  const SetGeodata = (value) => {
-		userContext?.SetUser({
-      ...userContext?.user,
+  const SetUserGeodata = (value) => {
+		userContext?.SetUser(prev => ({
+      ...prev,
       userGeodata: value,
-    })
+    }))
 	}
 
-  const SetLaunchParams = (value) => {
-		userContext?.SetUser({
-      ...userContext?.user,
+  const SetUserLaunchParams = (value) => {
+		userContext?.SetUser(prev => ({
+      ...prev,
       userLaunchParams: value,
-    })
+      vkToken:  btoa(new URLSearchParams(value).toString()),
+      sign:  btoa(value),
+    }))
 	}
 
-  const SetUserInfoActive = (value) => {
-		userContext?.SetUser({
-      ...userContext?.user,
+  const SetUserInfo = (value) => {
+		userContext?.SetUser(prev => ({
+      ...prev,
       userInfo: value,
-    })
+    }))
 	}
   
-	return {userContext, userInfo, userGeodata, userAuthToken, userLaunchParams, sign, vkToken, SetUserAllowedScopes, SetAuthToken, SetGeodata, SetLaunchParams, SetUserInfoActive}
+	return {userContext, userInfo, userGeodata, userAuthToken, userLaunchParams, userAllowedScopes, sign, vkToken, SetUserAllowedScopes, SetUserAuthToken, SetUserGeodata, SetUserLaunchParams, SetUserInfo}
 }
 
 export default useUserContext

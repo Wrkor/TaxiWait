@@ -1,4 +1,4 @@
-export const normalizeError = (error) => {
+export const NormalizeError = (error) => {
   if (!error) {
     return error;
   }

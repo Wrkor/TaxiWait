@@ -1,14 +1,42 @@
 import { Button, Spacing, Title } from '@vkontakte/vkui'
-import { useMonitoringContext, useTaxiContext } from '../../hooks'
+import { useEffect } from 'react'
+import { SendStartMonitoring, StartConnection, StopConnection } from '../../api'
+import { useMapContext, useMonitoringContext, useSnackbarContext, useTaxiContext, useUserContext } from '../../hooks'
 
 export const MonitoringWaitContainer = () => {
 	const { price, discount, discountPrice } = useTaxiContext()
-	const { SetMonitoringSuccess } = useMonitoringContext()
+	const { isRoadSelect, geocodeFrom, geocodeTo } = useMapContext()
+	const { SetMonitoringRun, isMonitoringRun } = useMonitoringContext()
+	const { SetSnackbarError } = useSnackbarContext()
+	const { userLaunchParams } = useUserContext()
 
 	const OnClickMonitoringCancel = () => {
-		console.log("REQUEST_MONITORING_CANCEL")
-		SetMonitoringSuccess(true)
+		StopConnection()
+		SetMonitoringRun(false)
+		SetSnackbarError("Ожидание отменено")
 	}
+
+	const SetStartMonitoring = (data) => console.log("SetStartMonitoring", data)
+	const SetManageMonitoring = (data) => console.log("SetManageMonitoring", data)
+	const SetNotification = (data) => console.log("SetNotification", data)
+	const SetError = (data) => console.log("SetError", data)
+	const SetUnknown = (data) => console.log("SetUnknown", data)
+
+	useEffect(() => {
+		if (!isRoadSelect || geocodeFrom?.length < 3 || geocodeTo?.length < 3 || !discountPrice || !isMonitoringRun) {
+			return
+		}
+
+		console.log("StartConnection")
+		StartConnection(userLaunchParams, SetStartMonitoring, SetManageMonitoring, SetNotification, SetError, SetUnknown)
+
+		const message = {
+			"query": `${geocodeFrom}~${geocodeTo}`,
+			"targetPrice": discountPrice,
+		}
+		console.log("SendStartMonitoring")
+		SendStartMonitoring(message)
+	}, [isMonitoringRun])
 
   return (
 		<div className='container'>

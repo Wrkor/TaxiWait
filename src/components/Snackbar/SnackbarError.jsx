@@ -6,7 +6,7 @@ const SnackbarError = ({ onClose, text, duration, ...props }) => (
   <Snackbar
     {...props}
     placement="top"
-    duration={duration ?? 2000}
+    duration={duration ?? 1000}
     onClose={onClose}
     before={<Icon28ErrorCircleOutline className={classes.errorIcon} />}
   >

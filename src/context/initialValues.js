@@ -1,10 +1,23 @@
+
 export const initialValues = {
 	user: {
-
+    userInfo: {},
+    userGeodata: {},
+    userAuthToken: {},
+    userLaunchParams: {},
+    userAllowedScopes: [],
+    vkToken: "",
+    sign: "",
+  },
+  snackbar: {
+    error: "",
+    success: "",
   },
   map: {
     roadFrom: "",
     roadTo: "",
+    geocodeFrom: "",
+    geocodeTo: "",
     isRoadSelect: false,
   },
   taxi: {

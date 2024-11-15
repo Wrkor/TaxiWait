@@ -1,14 +1,19 @@
 import { instance } from '../api/axios'
 
-export const makeRequest = async ( method, url, params) => {
+export const MakeRequest = async ( method, url, key, body, params) => {
   try {
     const response = await instance({
-      method: method,
-      url: url,
-      data: params,
+      method,
+      url,
+      params,
+      data: body,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `VK ${key}`,
+      },
     });
 
-    return response.data;
+    return response;
   } 
   catch (e) {
     return Promise.reject(e);

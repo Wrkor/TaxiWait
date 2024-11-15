@@ -1,16 +1,18 @@
 import { Button, Slider, Spacing, Title } from '@vkontakte/vkui'
 import { useEffect } from 'react'
 import { AppPanelSpinner } from '..'
-import { useMapContext, useMonitoringContext, useSnackbar, useTaxiContext } from '../../hooks'
+import { GetPrice } from '../../api'
+import { useMapContext, useMonitoringContext, useSnackbarContext, useTaxiContext, useUserContext } from '../../hooks'
 
 export const MonitoringRunContainer = () => {
-	const { price, SetPrice, discount, SetDiscount, discountPrice, SetDiscountPrice } = useTaxiContext()
+	const { price, SetOrder, ClearOrder, discount, SetDiscount, discountPrice, SetDiscountPrice } = useTaxiContext()
 	const { SetMonitoringRun } = useMonitoringContext()
-	const { isRoadSelect } = useMapContext()
-	const { SetSnackbarSuccess } = useSnackbar()
+	const { isRoadSelect, geocodeFrom, geocodeTo } = useMapContext()
+	const { vkToken } = useUserContext()
+
+	const { SetSnackbarSuccess } = useSnackbarContext()
 
 	const OnClickMonitoringRun = () => {
-		console.log("REQUEST_MONITORING_RUN")
 		SetMonitoringRun(true)
 		SetSnackbarSuccess("Запущено ожидание такси")
 	}
@@ -20,11 +22,24 @@ export const MonitoringRunContainer = () => {
   }, [price, discount])
 
 	useEffect(() => {
-		if (isRoadSelect) {
-			console.log("REQUEST_PRICE_ROAD")
-			SetPrice(Math.round(Math.random() * 300) + 50)
+		if (!isRoadSelect || geocodeFrom?.length < 3 || geocodeTo?.length < 3) {
+			ClearOrder()
+			return
 		}
-  }, [isRoadSelect])
+
+		const fecthing = async () => {
+			
+			try {
+				const result = await GetPrice({"q": `${geocodeFrom}~${geocodeTo}`}, vkToken)
+				SetOrder(result)
+			}
+			catch (e) {
+				SetSnackbarError("Не удалось загрузить данные")
+			}
+		}
+		fecthing()
+
+  }, [isRoadSelect, geocodeFrom, geocodeTo])
 
   return (
 		price ?

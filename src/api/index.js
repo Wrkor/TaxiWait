@@ -1,12 +1,8 @@
-import { getOptionsAddress } from '../config/data'
-import { makeRequest } from '../helpers/'
+import { GetGeocodeAddress, GetPrice, GetSuggestAddress } from './api'
+import { SendManageMonitoring, SendStartMonitoring, StartConnection, StopConnection, isConnect } from './ws'
 
-export const getUserActiveMonitoring = (userId) => 
-  makeRequest('get', `/api/users/${userId}/active-order`)
-
-export const getAddress = async (value) => 
-  getOptionsAddress(value)
-
-export default {
-  getUserActiveMonitoring
+export {
+  GetGeocodeAddress,
+  GetPrice, GetSuggestAddress, SendManageMonitoring, SendStartMonitoring, StartConnection, StopConnection, isConnect
 }
+

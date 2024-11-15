@@ -11,26 +11,26 @@ export const useMonitoringContext = () => {
   const isMonitoringSuccess = monitoringContext?.monitoring?.isMonitoringSuccess
 
   const SetMonitoringActive = (value) => {
-		monitoringContext.SetMonitoring({
-      ...monitoringContext?.monitoring,
+		monitoringContext.SetMonitoring(prev => ({
+      ...prev,
       ...value,
-    })
-	}
+    }))
+  }
 
 	const SetMonitoringRun = (value) => {
-		monitoringContext.SetMonitoring({
-      ...monitoringContext?.monitoring,
+		monitoringContext.SetMonitoring(prev => ({
+      ...prev,
       isMonitoringRun: value,
-    })
-	}
+    }))
+  }
 
 	const SetMonitoringSuccess = (value) => {
-		monitoringContext.SetMonitoring({
-      ...monitoringContext?.monitoring,
+		monitoringContext.SetMonitoring(prev => ({
+      ...prev,
+      price: value,
       isMonitoringSuccess: value,
-      isMonitoringRun: value,
-    })
-	}
+    }))
+  }
 
 	return {monitoringContext, isMonitoringRun, SetMonitoringRun, isMonitoringSuccess, SetMonitoringSuccess, SetMonitoringActive}
 }

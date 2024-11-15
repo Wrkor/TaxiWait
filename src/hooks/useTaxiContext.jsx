@@ -7,32 +7,44 @@ import { TaxiContext } from '../context/TaxiProvider'
 export const useTaxiContext = () => {
   const taxiContext = useContext(TaxiContext)
 
+  const order = taxiContext?.taxi?.order
   const price = taxiContext?.taxi?.price
   const discount = taxiContext?.taxi?.discount
   const discountPrice = taxiContext?.taxi?.discountPrice
 
-	const SetPrice = (value) => {
-		taxiContext.SetTaxi({
-      ...taxiContext?.taxi,
-      price: value,
-    })
-	}
+	const SetOrder = (value) => {
+    const price = value?.options?.map(option => option.price).sort()[0]
+
+		taxiContext.SetTaxi(prev => ({
+      ...prev,
+      order: value,
+      price,
+    }))
+  }
+
+  const ClearOrder = () => {
+		taxiContext.SetTaxi(prev => ({
+      ...prev,
+      order: {},
+      price: 0,
+    }))
+  }
   
-    const SetDiscount = (value) => {
-      taxiContext.SetTaxi({
-        ...taxiContext?.taxi,
-        discount: value,
-      })
-    }
+  const SetDiscount = (value) => {
+      taxiContext.SetTaxi(prev => ({
+      ...prev,
+      discount: value,
+    }))
+  }
 
 	const SetDiscountPrice = (value) => {
-		taxiContext.SetTaxi({
-      ...taxiContext?.taxi,
+		taxiContext.SetTaxi(prev => ({
+      ...prev,
       discountPrice: value,
-    })
-	}
+    }))
+  }
 
-	return {taxiContext, price, SetPrice, discountPrice, SetDiscountPrice, discount, SetDiscount}
+	return {taxiContext, price, order, SetOrder, ClearOrder, discountPrice, SetDiscountPrice, discount, SetDiscount}
 }
 
 export default useTaxiContext

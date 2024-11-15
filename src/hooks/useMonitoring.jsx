@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getUserActiveMonitoring } from '../api/'
-import { normalizeError } from '../helpers'
+import { NormalizeError } from '../helpers'
 import useMonitoringContext from './useMonitoringContext'
 import useUserContext from './useUserContext'
 
@@ -27,7 +26,7 @@ export const useMonitoring = () => {
 
     const fetching = async () => {
       try {
-        const data = await getUserActiveMonitoring(userInfo?.id)
+        const data = {} //await GetUserActiveMonitoring(userInfo?.id)
 
         // Мониторинг получен
 
@@ -40,7 +39,7 @@ export const useMonitoring = () => {
         // Получена ошибка
 
         console.error("[ERROR] useMonitoring: ", e)
-        SetMonitoringError(normalizeError('Ошибка получения активного заказа'))
+        SetMonitoringError(NormalizeError('Ошибка получения активного заказа'))
       }
       finally {
         SetMonitoringLoading(false)

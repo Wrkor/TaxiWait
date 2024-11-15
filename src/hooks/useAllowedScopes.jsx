@@ -1,7 +1,7 @@
 import bridge from '@vkontakte/vk-bridge'
 import { useEffect, useState } from 'react'
 import globalConstants from '../config/globalConstants'
-import { normalizeError } from '../helpers'
+import { NormalizeError } from '../helpers'
 import useUserContext from './useUserContext'
 
 /**
@@ -10,13 +10,8 @@ import useUserContext from './useUserContext'
 export const useAllowedScopes = () => {
   const [isAllowedScopesLoading, SetAllowedScopesLoading] = useState(true)
   const [allowedScopeError, SetAllowedScopeError] = useState(null)
-  const [allowedScopes, SetAllowedScopes] = useState([])
 
-  const { SetUserAllowedScopes } = useUserContext()
-  
-  useEffect(() => {
-    SetUserAllowedScopes(allowedScopes)
-  }, [allowedScopes])
+  const { userAllowedScopes, SetUserAllowedScopes } = useUserContext()
 
   useEffect(() => {
     SetAllowedScopesLoading(true)
@@ -32,7 +27,7 @@ export const useAllowedScopes = () => {
         // Права доступа получены
 
         if (data.result) {
-          SetAllowedScopes(data.result)
+          SetUserAllowedScopes(data.result)
         }
       } 
       catch (e) {
@@ -40,7 +35,7 @@ export const useAllowedScopes = () => {
         // Получена ошибка
 
         console.error("[ERROR] useAllowedScopes: ", e)
-        SetAllowedScopeError(normalizeError('Ошибка получения прав доступа пользователя'))
+        SetAllowedScopeError(NormalizeError('Ошибка получения прав доступа пользователя'))
       } 
       finally {
         SetAllowedScopesLoading(false)
@@ -49,7 +44,7 @@ export const useAllowedScopes = () => {
     fetching()
   }, [])
 
-  return { isAllowedScopesLoading, allowedScopeError, allowedScopes }
+  return { isAllowedScopesLoading, allowedScopeError, userAllowedScopes }
 }
 
 export default useAllowedScopes

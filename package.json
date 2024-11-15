@@ -17,12 +17,14 @@
     "@vkontakte/vk-bridge-react": "^1.0.1",
     "@vkontakte/vk-mini-apps-router": "^1.4.2",
     "@vkontakte/vkui": "^6.0.0",
+    "express": "^4.21.1",
     "mmr-gl": "^0.2.43",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-swipeable-bottom-sheet": "^1.1.2",
-    "sass": "^1.80.6"
+    "sass": "^1.80.6",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^5.3.1",
