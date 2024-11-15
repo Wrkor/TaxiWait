@@ -12,54 +12,56 @@ export const SwipeableRoadPanel = () => {
 
   const { isMonitoringRun, isMonitoringSuccess } = useMonitoringContext()
 
-  const OnOpenSelect = () => {
+	const OnOpenSelect = () => {
 		if (!isRoadSelect) {
 			SetExpandSwipeableContainer(true)
 			SetFullScreenSwipeableContainer(true)
 		}
-  }
+	}
 
-  const OnCloseSelect = () => {
+	const OnCloseSelect = () => {
 		SetExpandSwipeableContainer(false)
-    SetFullScreenSwipeableContainer(false)
-  }
+		SetFullScreenSwipeableContainer(false)
+	}
 
-  useEffect(() => {
-    if (isRoadSelect) {
-      SetExpandSwipeableContainer(true)
-      SetFullScreenSwipeableContainer(false)
-    }
+	useEffect(() => {
+		if (isRoadSelect) {
+			SetExpandSwipeableContainer(true)
+			SetFullScreenSwipeableContainer(false)
+		}
 
-    SetLockSwipeableSheet(isRoadSelect)
-  }, [isRoadSelect])
+		SetLockSwipeableSheet(isRoadSelect)
+	}, [isRoadSelect])
+	return (
+		// <div className='wrapperSwape' style={{position: 'absolute', width: '100%', height: '100%'}}>
 
-  return (
-		<SwipeableContainer
-			isFullScreen={isFullScreenSwipeableContainer}
-			isExpand={isExpandSwipeableContainer}
-			SetExpand={SetExpandSwipeableContainer}
-			height="500px"
-			overflowHeight={isLockSwipeableSheet ? 560 : 360}
-		>
-			<Spacing size={8} />
-			<DashSVG fill="#3C3C43"/>
-			<Spacing size={8} />
-			{
-				isMonitoringRun
-				?
-					isMonitoringSuccess
-					?
-						<MonitoringSuccessContainer/>
-					:
-						<MonitoringWaitContainer/>
-				:
-					<>
-						<RoadContainer OnOpenSelect={OnOpenSelect} OnCloseSelect={OnCloseSelect}/>
-					</>
-			}
-			
-		</SwipeableContainer>
-  )
+			<SwipeableContainer
+				isFullScreen={isFullScreenSwipeableContainer}
+				isExpand={isExpandSwipeableContainer}
+				SetExpand={SetExpandSwipeableContainer}
+				height="500px"
+				overflowHeight={isLockSwipeableSheet ? 250 : 400}
+			>
+				<Spacing size={8} />
+				<DashSVG fill="#3C3C43" />
+				<Spacing size={8} />
+				{
+					isMonitoringRun
+						?
+						isMonitoringSuccess
+							?
+							<MonitoringSuccessContainer />
+							:
+							<MonitoringWaitContainer />
+						:
+						<>
+							<RoadContainer OnOpenSelect={OnOpenSelect} OnCloseSelect={OnCloseSelect} />
+						</>
+				}
+
+			</SwipeableContainer>
+		// </div>
+	)
 }
 
 export default SwipeableRoadPanel

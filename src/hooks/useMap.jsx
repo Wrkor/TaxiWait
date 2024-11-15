@@ -13,6 +13,11 @@ export const useMap = (mapRef) => {
   const [storedMapEntity, setStoredMapEntity] = useState()
   const { isDarkTheme } = useTheme()
 
+  // const prewarmUpdate = () => {
+  //   mmrgl.prewarm()
+  //   mmrgl.config.REGISTERED_PROTOCOLS.
+  // }
+
   const mapStyle = isDarkTheme ? globalConstants.map.theme.dark : globalConstants.map.theme.light
 
   useEffect(() => {
@@ -21,6 +26,7 @@ export const useMap = (mapRef) => {
     }
 
     mmrgl.prewarm()
+    mmrgl.baseApiUrl = "https://demo.maps.vk.com"
     mmrgl.accessToken = globalConstants.map.token
 
     const connectedMapEntity = new mmrgl.Map({
@@ -29,6 +35,11 @@ export const useMap = (mapRef) => {
       center: [globalConstants.map.coords.long, globalConstants.map.coords.lat],
       style: mapStyle,
       hash: false,
+      transformRequest: (url, resourceType) => {
+        return {
+          url: url + "?limit=50",
+        }
+      }
     })
 
     connectedMapEntity.setStyle(mapStyle)

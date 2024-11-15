@@ -16,7 +16,7 @@ export const ShareOrderModal = ({ onClose, ...props }) => {
             const buffer = await ShareOrderModalGet()
             SetDefaultOrderPublic(buffer)
         }
-    
+
         showOnboarding()
     }, [])
 
@@ -41,6 +41,9 @@ export const ShareOrderModal = ({ onClose, ...props }) => {
                         <Radio
                             value="Отключено"
                             name="radio"
+                            checked={!isDefaulOrderPulic}
+                            description="Не показываю свои заказы и не вижу заказы пользователей"
+                            onChange={()=>{ SetDefaultOrderPublic(false)}}
                             checked={!isDefaulOrderPulic}
                             description="Не показываю свои заказы и не вижу заказы пользователей"
                             onChange={()=>{ SetDefaultOrderPublic(false)}}

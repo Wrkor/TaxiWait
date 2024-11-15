@@ -26,10 +26,8 @@ export const useLaunchParams = () => {
         }
       } 
       catch (e) {
-
         // Получена ошибка
-
-        console.error("[ERROR] useLaunchParams: ", e)
+        
         SetLaunchParamsError(NormalizeError('Ошибка получения параметров запуска приложения'))
       }
       finally {

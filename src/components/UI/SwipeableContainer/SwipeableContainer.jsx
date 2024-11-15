@@ -11,8 +11,9 @@ const SwipeableContainer = ({children, isExpand, SetExpand, isFullScreen, height
 			overlay={false}
 			topShadow={false}
 			onChange={SetExpand}
-			fullScreen={isFullScreen}
+			fullScreen={false}
 			overflowHeight={overflowHeight}
+			marginTop={60}
 		>
 			<div style={{ height: height }} className={classes.body}>
 				{children}

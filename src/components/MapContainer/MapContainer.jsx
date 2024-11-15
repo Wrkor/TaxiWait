@@ -2,12 +2,18 @@ import { useEffect, useRef } from 'react'
 import { NetworkError } from '../'
 import { useMap, useSnackbarContext } from '../../hooks'
 import AppPanelSpinner from '../AppPanelSpinner/AppPanelSpinner'
-import styles from './MapContainer.module.scss'
 
 export const MapContainer = ({onMove, ...props}) => {
+
   const mapRef = useRef(null)
   const { mapError, isMapLoading } = useMap(mapRef)
   const { SetSnackbarError } = useSnackbarContext()
+
+//   useEffect(() =>
+// 	if(mapError != null){
+// 		prewarmUpdate()
+// 	}
+//   },[mapError])
 
 	useEffect(() => {
 		if (!!mapError)
@@ -17,12 +23,7 @@ export const MapContainer = ({onMove, ...props}) => {
 	return (
 		!mapError 
 		?
-			<div 
-				onClick={onMove} 
-				className={styles.map} 
-				ref={mapRef}
-				{...props}
-			>
+			<div>
 				{
 					isMapLoading 
 					? 
