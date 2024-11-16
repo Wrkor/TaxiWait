@@ -32,6 +32,8 @@ export const globalConstants = {
 	storage: {
     confirmNotification: 'confirmNotification',
     isWasShowOnboarding: 'isWasShowOnboarding',
+    isShowAlertAcceptNotifications: 'isShowAlertAcceptNotifications',
+    isShowNotification: 'isShowNotification',
     isShareOrder: 'isShareOrder',
 	},
   scope: {
@@ -57,10 +59,10 @@ export const globalConstants = {
   map: {
     token: "",
     coords: {
-      lat: 52.3431312,
-      long: 104.1940168,
+      lat: 52.262466,
+      long: 104.268865,
     },
-    zoom: 15,
+    zoom: 14,
     theme: {
       dark: 'mmr://api/styles/dark_style.json',
       light: 'mmr://api/styles/main_style.json',

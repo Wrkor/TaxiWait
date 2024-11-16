@@ -33,7 +33,7 @@ export const StartConnection = (userLaunchParams, SetStartMonitoring, SetManageM
 	if (isConnect)
 		return
 
-	socket = io(`${globalConstants.ws}`, {
+	socket = io(`${globalConstants.ws}/socket`, {
 		query: userLaunchParams
 	})
 

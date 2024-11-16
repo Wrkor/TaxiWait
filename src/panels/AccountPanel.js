@@ -6,37 +6,28 @@ import { SnackbarError, SnackbarSuccess } from '../components'
 import AlertConfirmActions from '../components/AlertConfirmActions/AlertConfirmActions.jsx'
 import AppPanelSpinner from '../components/AppPanelSpinner/AppPanelSpinner.jsx'
 import globalConstants from '../config/globalConstants'
-import { isShowNotificationGet, isShowNotificationSet, showAlertAcceptNotificationGet } from '../helpers'
-import { useMapContext, useMonitoringContext, useSnackbarContext, useTaxiContext } from '../hooks'
+import { isShowNotificationGet, isShowNotificationSet, ShowAlertAcceptNotificationGet } from '../helpers'
+import { useMonitoringContext, useSnackbarContext } from '../hooks'
 import useUserContext from '../hooks/useUserContext'
 
 export const AccountPanel = ({ id }) => {
     const routeNavigator = useRouteNavigator()
-    const { userInfo, userContext, sign, vkToken } = useUserContext()
-    const { monitoringContext, isMonitoringRun } = useMonitoringContext()
-    const { mapContext } = useMapContext()
-    const { taxiContext } = useTaxiContext()
+    const { userInfo } = useUserContext()
+    const { isMonitoringRun } = useMonitoringContext()
 
     const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError } = useSnackbarContext()
 
-    console.log("userContext", userContext?.user)
-    console.log("monitoringContext", monitoringContext?.monitoring)
-    console.log("mapContext", mapContext?.map)
-    console.log("taxiContext", taxiContext?.taxi)
-    console.log("sign", sign)
-    console.log("vkToken", vkToken)
-
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const [initShowAlert, setInitShowAlert] = useState(false)
     const [isShowAlertAcceptNotification, setShowAlertNotification] = useState(false)
     const [isAgreeOnNotification, setAgreeOnNotification] = useState(false)
 
     useEffect(() => {
+        setIsLoading(true)
         const initSwitch = (async () => {
             let isAgree = await isShowNotificationGet()
-            console.log("Получили"+isAgree)
             setAgreeOnNotification(isAgree)
-            let initShowAlertGet = await showAlertAcceptNotificationGet()
+            let initShowAlertGet = await ShowAlertAcceptNotificationGet()
             setInitShowAlert(initShowAlertGet) 
             setIsLoading(false)
         })
@@ -44,8 +35,7 @@ export const AccountPanel = ({ id }) => {
     }, [])
 
     const chageGetNotification = async () => {
-        //const isShowAlert = showAlertAcceptNotificationGet()
-        console.log("initShowAlert"+initShowAlert)
+        //const isShowAlert = ShowAlertAcceptNotificationGet()
         if (!initShowAlert) {
             setAgreeOnNotification(!isAgreeOnNotification)
             await isShowNotificationSet(`${!isAgreeOnNotification}`)
@@ -93,8 +83,8 @@ export const AccountPanel = ({ id }) => {
                             }
                         </Div>
                         <SimpleCell subtitle="1 уровень 3 раза ждун такси" before={
-                            <Avatar size={52} src={userVK && userVK?.photo_200} gradientColor="blue" />}>
-                            {userVK && userVK?.first_name} {userVK && userVK?.last_name}
+                            <Avatar size={52} src={userInfo && userInfo?.photo_200} gradientColor="blue" />}>
+                            {userInfo && userInfo?.first_name} {userInfo && userInfo?.last_name}
                         </SimpleCell>
                         <Cell
                             expandable="auto"
@@ -131,57 +121,6 @@ export const AccountPanel = ({ id }) => {
                         </Cell>
                     </>
             }
-            
-            <Div> 
-                {
-                    isMonitoringRun &&
-                    <Banner
-                        mode="image"
-                        header="Еще ведем мониторинг цены"
-                        asideMode="expand"
-                        onClick={() => routeNavigator.push(globalConstants.routes.main)}
-                        background={<div style={{backgroundColor: '#2688eb'}}></div>}
-                        before={<Icon28CarOutline />}
-                    />
-                }
-            </Div>
-            <SimpleCell subtitle="1 уровень 3 раза ждун такси" before={
-                <Avatar size={52} src={userInfo && userInfo?.photo_200} gradientColor="blue" />}>
-                {userInfo && userInfo?.first_name} {userInfo && userInfo?.last_name}
-            </SimpleCell>
-            <Cell
-                expandable="auto"
-                before={<Icon28Notifications />}
-                after={<Switch />}
-            >
-                Уведомления в ВК
-            </Cell>
-            <Cell
-                expandable="auto"
-                before={<Icon28ArticleOutline />}
-                subtitle="Стоимость, статусы, оценки"
-                after={<Icon24ChevronCompactRight />}
-                onClick={()=>{routeNavigator.push("/account/orders")}}
-            >
-                Все заказы
-            </Cell>
-            <Cell
-                expandable="auto"
-                before={<Icon28VideoCircleOutline />}
-                subtitle="Включена"
-                after={<Icon24ChevronCompactRight />}
-            >
-                Реклама
-            </Cell>
-            <Cell
-                expandable="auto"
-                before={<Icon28ViewOutline />}
-                subtitle="Включено"
-                after={<Icon24ChevronCompactRight />}
-                onClick={()=>routeNavigator.showModal(globalConstants.modal.confirmShareOrder)}
-            >
-                Отображение заказов
-            </Cell>
             {
                 snackbarSuccess?.length > 0 && 
                 <SnackbarSuccess onClose={() => SetSnackbarSuccess("")} text={snackbarSuccess}/>

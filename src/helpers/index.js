@@ -1,18 +1,16 @@
 import { EnableSwipe } from './enableSwipe'
-import { isShowNotificationGet } from './isShowNotificationGet'
-import { isShowNotificationSet } from './isShowNotificationSet'
+import { FilterAddresses } from './filterAddresses'
+import { isShowNotificationGet, isShowNotificationSet } from './isShowNotification'
 import { MakeRequest } from './makeRequest'
 import { NormalizeError } from './normalizeError'
 import { OnbordingShowGet, OnbordingShowSet } from './onbordingShow'
-import { onbordingShowSet } from './onbordingShowSet'
-import { ShareOrderModalGet, ShareOrderModalSet } from './shareOrderModal.js'
-import { showAlertAcceptNotificationGet } from './showAlertAcceptNotificationGet'
-import { showAlertAcceptNotificationSet } from './showAlertAcceptNotificationSet'
+import { ShareOrderModalGet, ShareOrderModalSet } from './shareOrderModal'
+import { ShowAlertAcceptNotificationGet, ShowAlertAcceptNotificationSet } from './showAlertAcceptNotification'
 
 export {
-  EnableSwipe, isShowNotificationGet,
+  EnableSwipe, FilterAddresses, isShowNotificationGet,
   isShowNotificationSet, MakeRequest,
-  NormalizeError, OnbordingShowGet, OnbordingShowGet, OnbordingShowSet, onbordingShowSet, OnbordingShowSet, ShareOrderModalGet, ShareOrderModalGet, ShareOrderModalSet, ShareOrderModalSet, showAlertAcceptNotificationGet,
-  showAlertAcceptNotificationSet
+  NormalizeError, OnbordingShowGet, OnbordingShowSet, ShareOrderModalGet, ShareOrderModalSet, ShowAlertAcceptNotificationGet,
+  ShowAlertAcceptNotificationSet
 }
 

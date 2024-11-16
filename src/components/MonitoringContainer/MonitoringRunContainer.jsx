@@ -22,15 +22,15 @@ export const MonitoringRunContainer = () => {
   }, [price, discount])
 
 	useEffect(() => {
-		if (!isRoadSelect || geocodeFrom?.length < 3 || geocodeTo?.length < 3) {
+		if (!isRoadSelect || !geocodeFrom?.lat  || !geocodeFrom?.long|| !geocodeTo?.lat || !geocodeTo?.long) {
 			ClearOrder()
 			return
 		}
 
 		const fecthing = async () => {
-			
+			const q = `${geocodeFrom.long},${geocodeFrom.lat}~${geocodeTo.long},${geocodeTo.lat}`
 			try {
-				const result = await GetPrice({"q": `${geocodeFrom}~${geocodeTo}`}, vkToken)
+				const result = await GetPrice({"q": q}, vkToken)
 				SetOrder(result)
 			}
 			catch (e) {

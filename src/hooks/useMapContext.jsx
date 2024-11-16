@@ -23,7 +23,10 @@ export const useMapContext = () => {
   const SetGeocodeFrom = (value) => {
 		mapContext.SetMap(prev => ({
       ...prev,
-      geocodeFrom: value,
+      geocodeFrom: {
+        long: value[0],
+        lat: value[1],
+      },
     }))
   }
 
@@ -37,7 +40,10 @@ export const useMapContext = () => {
   const SetGeocodeTo = (value) => {
 		mapContext.SetMap(prev => ({
       ...prev,
-      geocodeTo: value,
+      geocodeTo: {
+        long: value[0],
+        lat: value[1],
+      },
     }))
   }
 

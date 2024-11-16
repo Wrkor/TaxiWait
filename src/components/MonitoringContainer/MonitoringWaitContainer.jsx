@@ -23,20 +23,20 @@ export const MonitoringWaitContainer = () => {
 	const SetUnknown = (data) => console.log("SetUnknown", data)
 
 	useEffect(() => {
-		if (!isRoadSelect || geocodeFrom?.length < 3 || geocodeTo?.length < 3 || !discountPrice || !isMonitoringRun) {
+		if (!isRoadSelect || !geocodeFrom?.lat  || !geocodeFrom?.long|| !geocodeTo?.lat || !geocodeTo?.long || !discountPrice || !isMonitoringRun) {
 			return
 		}
 
-		console.log("StartConnection")
+		console.log("StartConnection2")
 		StartConnection(userLaunchParams, SetStartMonitoring, SetManageMonitoring, SetNotification, SetError, SetUnknown)
 
 		const message = {
-			"query": `${geocodeFrom}~${geocodeTo}`,
-			"targetPrice": discountPrice,
+			query: `${geocodeFrom.long},${geocodeFrom.lat}~${geocodeTo.long},${geocodeTo.lat}`,
+			targetPrice: discountPrice,
 		}
-		console.log("SendStartMonitoring")
+
 		SendStartMonitoring(message)
-	}, [isMonitoringRun])
+	}, [isMonitoringRun, geocodeFrom, geocodeTo])
 
   return (
 		<div className='container'>

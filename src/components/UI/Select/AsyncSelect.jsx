@@ -1,42 +1,55 @@
 import { CustomSelect } from '@vkontakte/vkui'
-import { useEffect, useState } from 'react'
+import debounce from 'lodash.debounce'
+import { useEffect, useMemo, useState } from 'react'
 import { useSnackbarContext } from '../../../hooks'
 
-export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputChange, onClose, onSelect, defaultValue, length, ...props }) => {
+export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputChange, onClose, onSelect, defaultValue, length, filterOptions, ...props }) => {
   const [fetching, SetFetching] = useState(false)
   const [text, SetText] = useState("Введите адрес")
   const [options, SetOptions] = useState([])
   const { SetSnackbarError } = useSnackbarContext()
 
-  const searchAsync = async (value) => {
-		if (value?.length < length) {
+	const [inputValue, setInputValue] = useState('');
+
+  const fetch = async (query) => {
+    if (!query || query?.length < length) {
 			SetText("Введите адрес")
-			return
+			return;
 		}
 
 		SetFetching(true)
-		onInputChange(value)
+		onInputChange(query)
 
-		try {
-			const response = await request(value)
-
+    try {
+      const result = await request(query)
 			SetText("Ничего не нашли")
-
-			if (!!response)
-				SetOptions(response)
-
-		}
-		catch (e) {
+      SetOptions(result);
+    } 
+		catch {
 			SetSnackbarError("Не удалось загрузить данные")
 		}
-
-		SetFetching(false);
+		finally {
+			SetFetching(false);
+		}
   };
+
+  const debouncedFetchAddresses = useMemo(() => 
+		debounce(fetch, 1000), []);
+
+	const filteredOptions = useMemo(() => {
+		return !!filterOptions ? filterOptions(options) : options
+	}, [options, filterOptions]);
+
+	useEffect(() => {
+		debouncedFetchAddresses(inputValue);
+
+		return () => debouncedFetchAddresses.cancel()
+	}, [inputValue, debouncedFetchAddresses]);
 
 	useEffect(() => {
 		if (!!defaultValue) {
 			SetOptions([{"value": defaultValue, "label": defaultValue}])
-			searchAsync(defaultValue)
+			fetch(defaultValue)
 		}
 	}, [defaultValue])
 
@@ -45,20 +58,20 @@ export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputC
 			{...props}
 			defaultValue={defaultValue}
 			onChange={(e) => onSelect(e?.target?.value)}
-			selectType="plain"
+			onInputChange={e => setInputValue(e?.target?.value)}
+			options={filteredOptions}
+			fetching={fetching}
+			renderDropdown={!fetching}
 			onClick={onOpen}
 			onOpen={onOpen}
 			onClose={onClose}
 			before={!!icon && icon}
-			options={options}
+			selectType="plain"
 			emptyText={text}
 			searchable={true}
 			placeholder={placeholder}
-			onInputChange={e => searchAsync(e.target.value)}
 			allowClearButton={true}
-			fetching={fetching}
-			renderDropdown={!fetching}
-		/>
+			/>
   )
 }
 

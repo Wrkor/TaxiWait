@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { AsyncSelect, MonitoringRunContainer } from '../'
 import { GetGeocodeAddress, GetSuggestAddress } from '../../api/'
 import globalConstants from '../../config/globalConstants'
+import { FilterAddresses } from '../../helpers'
 import { useMapContext, useSnackbarContext, useUserContext } from '../../hooks'
 
 const params = { limit: 5 }
@@ -19,7 +20,7 @@ export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
 
 	useEffect(() => {
 		if (roadTo?.length < 10)  {
-			SetGeocodeTo("")
+			SetGeocodeTo([0, 0])
 			return
 		}
 
@@ -27,7 +28,9 @@ export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
 
 			try {
 				const result = await GetGeocodeAddress({"q": roadTo}, vkToken, params)
-				SetGeocodeTo(result)
+
+				if (Array.isArray(result) && result.length > 1)
+					SetGeocodeTo(result)
 			}
 			catch (e) {
 				SetSnackbarError("Не удалось загрузить данные")
@@ -38,7 +41,7 @@ export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
 
 	useEffect(() => {
 		if (roadFrom?.length < 10) {
-			SetGeocodeFrom("")
+			SetGeocodeFrom([0, 0])
 			return
 		}
 
@@ -46,7 +49,8 @@ export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
 
 			try {
 				const result = await GetGeocodeAddress({"q": roadFrom}, vkToken, params)
-				SetGeocodeFrom(result)
+				if (Array.isArray(result) && result.length > 1)
+					SetGeocodeFrom(result)
 			}
 			catch (e) {
 				SetSnackbarError("Не удалось загрузить данные")
@@ -66,8 +70,11 @@ export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
 				className='nonSeleted'
 				style={{ width: "85%"}}
 				placeholder={"Откуда"} 
+				filterOptions={FilterAddresses}
 				length={3}
-				request={async (value) => await GetSuggestAddress({ q: value, location: `${lat},${long}`}, vkToken, params)} 
+				request={async (value) => 
+					await GetSuggestAddress({ q: value, location: `${lat},${long}`}, vkToken, params)
+				}
 				onInputChange={() => OnOpenSelect()} 
 				onOpen={() => OnOpenSelect()} 
 				onClose={() => OnCloseSelect()} 
@@ -82,6 +89,7 @@ export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
 				className='nonSeleted'
 				style={{ width: "85%"}}
 				placeholder={"Куда"} 
+				filterOptions={FilterAddresses}
 				length={3}
 				request={async (value) => await GetSuggestAddress({ q: value, location: `${lat},${long}`}, vkToken, params)} 
 				onInputChange={() => OnOpenSelect()} 

@@ -4,13 +4,24 @@ import './App.scss'
 import { AppModalRoot, AppTabBar } from './components/index'
 import globalConstants from './config/globalConstants'
 import { EnableSwipe } from './helpers'
-import { useAllowedScopes, useAuthToken, useGeodata, useLaunchParams, useMonitoring, useOnboardSlides, useUserInfo } from './hooks'
+import { useAllowedScopes, useAuthToken, useGeodata, useLaunchParams, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, useTaxiContext, useUserContext, useUserInfo } from './hooks'
 import { AccountPanel, MapPanel, OrdersPanel } from './panels/'
 
 export const App = () => {
   const { view: activeView, panel: activePanel = globalConstants.panel.map } = useActiveVkuiLocation()
   const routerPopout = usePopout()
-  
+  const { userContext, sign, vkToken } = useUserContext()
+    const { monitoringContext } = useMonitoringContext()
+    const { mapContext } = useMapContext()
+    const { taxiContext } = useTaxiContext()
+
+    console.log("userContext", userContext?.user)
+    console.log("monitoringContext", monitoringContext?.monitoring)
+    console.log("mapContext", mapContext?.map)
+    console.log("taxiContext", taxiContext?.taxi)
+    console.log("sign", sign)
+    console.log("vkToken", vkToken)
+
   EnableSwipe()
   
   // Данные, которые запрашиваются сразу при маунтинге приложения

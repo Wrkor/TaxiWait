@@ -13,11 +13,6 @@ export const useMap = (mapRef) => {
   const [storedMapEntity, setStoredMapEntity] = useState()
   const { isDarkTheme } = useTheme()
 
-  // const prewarmUpdate = () => {
-  //   mmrgl.prewarm()
-  //   mmrgl.config.REGISTERED_PROTOCOLS.
-  // }
-
   const mapStyle = isDarkTheme ? globalConstants.map.theme.dark : globalConstants.map.theme.light
 
   useEffect(() => {
