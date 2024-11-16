@@ -10,6 +10,7 @@ import globalConstants from '../config/globalConstants'
 import { isShowNotificationGet, isShowNotificationSet, ShowAlertAcceptNotificationGet } from '../helpers'
 import { useMonitoringContext, useSnackbarContext } from '../hooks'
 import useUserContext from '../hooks/useUserContext'
+import useBot from '../hooks/index.js'
 
 export const AccountPanel = ({ id }) => {
     const routeNavigator = useRouteNavigator()
@@ -20,9 +21,9 @@ export const AccountPanel = ({ id }) => {
 
     const [isLoading, setIsLoading] = useState(false)
     const [initShowAlert, setInitShowAlert] = useState(false)
-    const [isShowAlertAcceptNotification, setShowAlertNotification] = useState(false)
+    const [isShowAlertAcceptNotification] = useBot()
     const [isAgreeOnNotification, setAgreeOnNotification] = useState(false)
-
+   
     useEffect(() => {
         setIsLoading(true)
         const initSwitch = (async () => {

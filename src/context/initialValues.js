@@ -8,6 +8,7 @@ export const initialValues = {
     userAllowedScopes: [],
     vkToken: "",
     sign: "",
+    enableBot: false
   },
   snackbar: {
     error: "",

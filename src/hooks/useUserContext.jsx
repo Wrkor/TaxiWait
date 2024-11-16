@@ -12,6 +12,7 @@ export const useUserContext = () => {
   const userAuthToken = userContext?.user?.userAuthToken
   const userLaunchParams = userContext?.user?.userLaunchParams
   const userAllowedScopes = userContext?.user?.userAllowedScopes
+  const enableBot = userContext?.user?.enableBot
 
   const sign = userContext?.user?.sign
   const vkToken = userContext?.user?.vkToken
@@ -52,8 +53,15 @@ export const useUserContext = () => {
       userInfo: value,
     }))
 	}
+
+  const SetEnableBot = (value) => {
+		userContext?.SetUser(prev => ({
+      ...prev,
+      enableBot: value,
+    }))
+	}
   
-	return {userContext, userInfo, userGeodata, userAuthToken, userLaunchParams, userAllowedScopes, sign, vkToken, SetUserAllowedScopes, SetUserAuthToken, SetUserGeodata, SetUserLaunchParams, SetUserInfo}
+	return {userContext, userInfo, userGeodata, userAuthToken, userLaunchParams, userAllowedScopes, sign, vkToken, enableBot, SetUserAllowedScopes, SetUserAuthToken, SetUserGeodata, SetUserLaunchParams, SetUserInfo, SetEnableBot}
 }
 
 export default useUserContext
