@@ -4,7 +4,7 @@ import './App.scss'
 import { AppModalRoot, AppTabBar } from './components/index'
 import globalConstants from './config/globalConstants'
 import { EnableSwipe } from './helpers'
-import { useAllowedScopes, useAuthToken, useGeodata, useLaunchParams, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, useTaxiContext, useUserContext, useUserInfo } from './hooks'
+import { useAllowedScopes, useAuthToken, useGeodata, useLaunchParams, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, useTaxiContext, useUserContext, useUserInfo, useBot } from './hooks'
 import { AccountPanel, MapPanel, OrdersPanel } from './panels/'
 
 export const App = () => {
@@ -30,6 +30,7 @@ export const App = () => {
   useLaunchParams()
   useGeodata()
   useAuthToken()
+  useBot()
   useOnboardSlides()
   useMonitoring()
   useAllowedScopes()
