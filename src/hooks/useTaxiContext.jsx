@@ -9,6 +9,7 @@ export const useTaxiContext = () => {
 
   const order = taxiContext?.taxi?.order
   const price = taxiContext?.taxi?.price
+  const waitPrice = taxiContext?.taxi?.waitPrice
   const discount = taxiContext?.taxi?.discount
   const discountPrice = taxiContext?.taxi?.discountPrice
 
@@ -30,6 +31,13 @@ export const useTaxiContext = () => {
     }))
   }
   
+  const SetWaitPrice = (value) => {
+    taxiContext.SetTaxi(prev => ({
+    ...prev,
+    waitPrice: value,
+  }))
+}
+
   const SetDiscount = (value) => {
       taxiContext.SetTaxi(prev => ({
       ...prev,
@@ -44,7 +52,7 @@ export const useTaxiContext = () => {
     }))
   }
 
-	return {taxiContext, price, order, SetOrder, ClearOrder, discountPrice, SetDiscountPrice, discount, SetDiscount}
+	return {taxiContext, price, order, SetOrder, ClearOrder, discountPrice, SetDiscountPrice, discount, SetDiscount, waitPrice, SetWaitPrice}
 }
 
 export default useTaxiContext

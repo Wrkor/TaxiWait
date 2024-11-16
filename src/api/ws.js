@@ -8,28 +8,23 @@ export const StopConnection = () => {
 	if (!isConnect)
 		return
 
+	socket.close()
 	socket.off('message')
 	socket.off('connect')
 	socket.off('disconnect')
 }
 
 export const SendStartMonitoring = (message) => {
-	if (!isConnect)
-		return
-	
 	console.log("SendStartMonitoring", socket)
 	socket.emit('startMonitoring', message)
 }
 
 export const SendManageMonitoring = (message) => {
-	if (!isConnect)
-		return
-	
 	console.log("SendManageMonitoring", socket)
 	socket.emit('manageMonitoring', message)
 }
 
-export const StartConnection = (userLaunchParams, SetStartMonitoring, SetManageMonitoring, SetNotification, SetError, SetUnknown) => {
+export const StartConnection = (userLaunchParams, SetStartMonitoring, SetManageMonitoring, SetNotification, SetUserData, SetError, SetUnknown) => {
 	if (isConnect)
 		return
 
@@ -49,6 +44,9 @@ export const StartConnection = (userLaunchParams, SetStartMonitoring, SetManageM
 		else if (event === 'notification')
 			SetNotification(data)
 
+		else if (event === 'userData')
+			SetUserData(data)
+
 		else if (event === 'error')
 			SetError(data)
 
@@ -59,10 +57,12 @@ export const StartConnection = (userLaunchParams, SetStartMonitoring, SetManageM
 	socket.on("connect", () => {
 		isConnect = true
 		console.log("Connect")
-	});
+	})
 	
 	socket.on("disconnect", () => {
 		isConnect = false
 		console.log("Disconnect")
-	});
+	})
+
+	socket.connect()
 }

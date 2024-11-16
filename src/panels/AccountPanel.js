@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { SnackbarError, SnackbarSuccess } from '../components'
 import AlertConfirmActions from '../components/AlertConfirmActions/AlertConfirmActions.jsx'
 import AppPanelSpinner from '../components/AppPanelSpinner/AppPanelSpinner.jsx'
+import SnackbarWarning from '../components/Snackbar/SnackbarSuccess.jsx'
 import globalConstants from '../config/globalConstants'
 import { isShowNotificationGet, isShowNotificationSet, ShowAlertAcceptNotificationGet } from '../helpers'
 import { useMonitoringContext, useSnackbarContext } from '../hooks'
@@ -15,7 +16,7 @@ export const AccountPanel = ({ id }) => {
     const { userInfo } = useUserContext()
     const { isMonitoringRun } = useMonitoringContext()
 
-    const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError } = useSnackbarContext()
+    const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError, snackbarWarning, SetSnackbarWarning } = useSnackbarContext()
 
     const [isLoading, setIsLoading] = useState(false)
     const [initShowAlert, setInitShowAlert] = useState(false)
@@ -128,6 +129,10 @@ export const AccountPanel = ({ id }) => {
             {
                 snackbarError?.length > 0  && 
                 <SnackbarError onClose={() => SetSnackbarError("")} text={snackbarError}/>
+            }
+            {
+                snackbarWarning?.length > 0  && 
+                <SnackbarWarning onClose={() => SetSnackbarWarning("")} text={snackbarWarning}/>
             }
         </Panel>
     )

@@ -24,6 +24,7 @@ export const initialValues = {
     discount: 20,
     price: 0,
     discountPrice: 0,
+    waitPrice: 0,
   },
   monitoring: {
     isMonitoringRun: false,

@@ -9,7 +9,15 @@ export const useSnackbarContext = () => {
 
   const snackbarSuccess = snackbarContext?.snackbar?.snackbarSuccess;
   const snackbarError = snackbarContext?.snackbar?.snackbarError;
+  const snackbarWarning = snackbarContext?.snackbar?.snackbarWarning;
   
+  const SetSnackbarWarning = (value) => {
+    snackbarContext.SetSnackbar(prev => ({
+      ...prev,
+      snackbarWarning: value
+    }))
+  } 
+
   const SetSnackbarError = (value) => {
     snackbarContext.SetSnackbar(prev => ({
       ...prev,
@@ -24,7 +32,7 @@ export const useSnackbarContext = () => {
     }))
   } 
 
-  return { snackbarContext, snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError }
+  return { snackbarContext, snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError, snackbarWarning, SetSnackbarWarning }
 };
 
 export default useSnackbarContext

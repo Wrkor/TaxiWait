@@ -4,10 +4,10 @@ import { SendStartMonitoring, StartConnection, StopConnection } from '../../api'
 import { useMapContext, useMonitoringContext, useSnackbarContext, useTaxiContext, useUserContext } from '../../hooks'
 
 export const MonitoringWaitContainer = () => {
-	const { price, discount, discountPrice } = useTaxiContext()
+	const { price, discount, discountPrice, waitPrice, SetWaitPrice } = useTaxiContext()
 	const { isRoadSelect, geocodeFrom, geocodeTo } = useMapContext()
-	const { SetMonitoringRun, isMonitoringRun } = useMonitoringContext()
-	const { SetSnackbarError } = useSnackbarContext()
+	const { SetMonitoringRun, SetMonitoringSuccess, isMonitoringRun } = useMonitoringContext()
+	const { SetSnackbarError, SetSnackbarSuccess, SetSnackbarWarning } = useSnackbarContext()
 	const { userLaunchParams } = useUserContext()
 
 	const OnClickMonitoringCancel = () => {
@@ -16,25 +16,63 @@ export const MonitoringWaitContainer = () => {
 		SetSnackbarError("Ожидание отменено")
 	}
 
-	const SetStartMonitoring = (data) => console.log("SetStartMonitoring", data)
-	const SetManageMonitoring = (data) => console.log("SetManageMonitoring", data)
-	const SetNotification = (data) => console.log("SetNotification", data)
-	const SetError = (data) => console.log("SetError", data)
-	const SetUnknown = (data) => console.log("SetUnknown", data)
+	const SetStartMonitoring = (data) => {
+		if (!data)
+			return
+
+		SetWaitPrice(data?.price)
+		SetMonitoringSuccess(!!data?.result)
+	}
+
+	const SetManageMonitoring = (data) =>{
+		// ВОПРОС ЗАДАЕТ ВЫПЛЮНУТЬ МОДАЛКУ
+		console.log("SetManageMonitoring", data)
+	} 
+
+	const SetNotification = (data) => {
+		if (!data?.type || !data?.message)
+			return
+
+		if (data?.type === "info")
+			SetSnackbarSuccess(data?.message)
+
+		else if (data?.type === "warning")
+			SetSnackbarWarning(data?.message)
+
+		else if (data?.type === "critical")
+			SetSnackbarError(data?.message)
+	}
+
+	const SetError = (data) => {
+		SetSnackbarError(data?.message)
+		console.log("[ERROR]", data)
+	}
+
+	const SetUnknown = (data) => {
+		console.log("[Unknown]", data)
+	}
+
+	const SetUserData = (data) => {
+
+		console.log("SetUserData", data)
+	}
+
+	useEffect(() => {
+		SetWaitPrice(data?.price)
+	}, [price])
 
 	useEffect(() => {
 		if (!isRoadSelect || !geocodeFrom?.lat  || !geocodeFrom?.long|| !geocodeTo?.lat || !geocodeTo?.long || !discountPrice || !isMonitoringRun) {
 			return
 		}
 
-		console.log("StartConnection2")
-		StartConnection(userLaunchParams, SetStartMonitoring, SetManageMonitoring, SetNotification, SetError, SetUnknown)
+		StartConnection(userLaunchParams, SetStartMonitoring, SetManageMonitoring, SetNotification, SetUserData, SetError, SetUnknown)
 
 		const message = {
 			query: `${geocodeFrom.long},${geocodeFrom.lat}~${geocodeTo.long},${geocodeTo.lat}`,
 			targetPrice: discountPrice,
 		}
-
+		
 		SendStartMonitoring(message)
 	}, [isMonitoringRun, geocodeFrom, geocodeTo])
 
@@ -50,7 +88,7 @@ export const MonitoringWaitContainer = () => {
 			</Title>
 			<Spacing size={8} />
 			<Title level="1" className='nonSeleted colorPrimary' style={{fontSize: "48px", lineHeight: "48px"}}> 
-				{price} руб.
+				{waitPrice} руб.
 			</Title>
 			<Spacing size={8} />
 			<Title level="3" className='nonSeleted colorSecondary' style={{fontSize: "16px"}}> 

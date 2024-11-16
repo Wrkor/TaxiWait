@@ -1,9 +1,10 @@
 import { Panel, PanelHeader } from '@vkontakte/vkui'
 import { MapContainer, SnackbarError, SnackbarSuccess, SwipeableRoadPanel } from '../components'
+import { SnackbarWarning } from '../components/Snackbar'
 import { useSnackbarContext } from '../hooks'
 
 export const MapPanel = ({ id }) => {
-  const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError } = useSnackbarContext()
+  const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError, snackbarWarning, SetSnackbarWarning } = useSnackbarContext()
 
   return (
     <Panel id={id}>
@@ -17,6 +18,10 @@ export const MapPanel = ({ id }) => {
       {
         snackbarError?.length > 0  && 
         <SnackbarError onClose={() => SetSnackbarError("")} text={snackbarError}/>
+      }
+      {
+        snackbarWarning?.length > 0  && 
+        <SnackbarWarning onClose={() => SetSnackbarWarning("")} text={snackbarWarning}/>
       }
     </Panel>
   )
