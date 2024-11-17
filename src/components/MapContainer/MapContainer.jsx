@@ -60,7 +60,7 @@ export const MapContainer = ({onMove, ...props}) => {
 	return (
 		!mapError 
 		?
-			<div>
+			<div style={{position: "relative", maxHeight: "75vh", maxWidth:"100vw"}}>
 				{
 					isMapLoading &&
 						<AppPanelSpinner /> 
