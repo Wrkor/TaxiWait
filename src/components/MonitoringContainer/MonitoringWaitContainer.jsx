@@ -1,11 +1,10 @@
 import { Button, Spacing, Title } from '@vkontakte/vkui'
-import { useMonitoringContext, useTaxiContext } from '../../hooks'
+import { useTaxiContext } from '../../hooks'
 import useSocket from '../../hooks/useSocket'
-import AlertConfirmActions from '../AlertConfirmActions/AlertConfirmActions'
 
 export const MonitoringWaitContainer = () => {
 	const { discountPrice, waitPrice } = useTaxiContext()
-	const { isContinue } = useMonitoringContext()
+
 
 	const { socket } = useSocket()
 
@@ -18,17 +17,6 @@ export const MonitoringWaitContainer = () => {
 
   return (
 		<div className='container'>
-			{
-        isContinue &&
-        <AlertConfirmActions
-					onAgree={() => OnClickMonitoringContinue(true)}
-					onDisagree={() => OnClickMonitoringContinue(false)}
-					textButtonAgree="Ок"
-					textButtonDisagree="Отмена"
-					header="Подтверждение"
-					text="Пожалуйста подтвердите получение сообщений о заказах из сообщества 'Мониторинг такси'" />
-      }
-			
 			<Spacing size={40} />
 			<Title level="1" className='nonSeleted colorFirst'> 
 				Мониторинг стоимости:
