@@ -83,7 +83,7 @@ export const AccountPanel = ({ id }) => {
                         >
                             Уведомления в ВК
                         </Cell>
-                        <Cell
+                        {/* <Cell
                             expandable="auto"
                             before={<Icon28ArticleOutline />}
                             subtitle="Стоимость, статусы, оценки"
@@ -108,7 +108,7 @@ export const AccountPanel = ({ id }) => {
                             onClick={() => routeNavigator.showModal(globalConstants.modal.confirmShareOrder)}
                         >
                             Отображение заказов
-                        </Cell>
+                        </Cell> */}
                     </>
             }
             {
