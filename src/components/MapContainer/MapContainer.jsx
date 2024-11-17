@@ -36,7 +36,12 @@ export const MapContainer = ({onMove, ...props}) => {
 	}, [userGeodata])
 
 	useEffect(() => {
-		if (!geocodeFrom?.long || !geocodeFrom?.lat ||! geocodeTo?.long || !geocodeTo?.lat || !ymap?.multiRouter)
+		if (!ymap?.multiRouter)
+			return
+
+		mapRef.current.geoObjects.removeAll()
+
+		if (!geocodeFrom?.long || !geocodeFrom?.lat ||! geocodeTo?.long || !geocodeTo?.lat)
 			return
 
 		const multiRoute = new ymap.multiRouter.MultiRoute({
@@ -48,7 +53,7 @@ export const MapContainer = ({onMove, ...props}) => {
     },{
 			boundsAutoApply: true
     })
-		mapRef.current.geoObjects.removeAll()
+		
     mapRef.current.geoObjects.add(multiRoute)
 	}, [geocodeFrom, geocodeTo, ymap])
 

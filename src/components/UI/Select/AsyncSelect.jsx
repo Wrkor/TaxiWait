@@ -19,7 +19,7 @@ export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputC
 		
 		SetFetching(true)
 		onInputChange(query)
-		console.log("vkToken", vkToken)
+
     try {
       const result = await request(query, vkToken)
 			SetText("Ничего не нашли")
