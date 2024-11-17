@@ -4,13 +4,13 @@ import './App.scss'
 import { AppModalRoot, AppTabBar } from './components/index'
 import globalConstants from './config/globalConstants'
 import { EnableSwipe } from './helpers'
-import { useAllowedScopes, useAuthToken, useGeodata, useLaunchParams, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, useTaxiContext, useUserContext, useUserInfo, useBot } from './hooks'
+import { useAllowedScopes, useAuthToken, useGeodata, useLaunchParams, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, useTaxiContext, useUserContext, useUserData, useUserInfo } from './hooks'
 import { AccountPanel, MapPanel, OrdersPanel } from './panels/'
 
 export const App = () => {
   const { view: activeView, panel: activePanel = globalConstants.panel.map } = useActiveVkuiLocation()
   const routerPopout = usePopout()
-  const { userContext, sign, vkToken } = useUserContext()
+  const { userContext, sign, userData, userLaunchParams } = useUserContext()
   const { monitoringContext } = useMonitoringContext()
   const { mapContext } = useMapContext()
   const { taxiContext } = useTaxiContext()
@@ -20,7 +20,7 @@ export const App = () => {
   // console.log("mapContext", mapContext?.map)
   // console.log("taxiContext", taxiContext?.taxi)
   // console.log("sign", sign)
-  // console.log("vkToken", vkToken)
+  //console.log("userData", userData)
 
   EnableSwipe()
   
@@ -30,7 +30,7 @@ export const App = () => {
   useLaunchParams()
   useGeodata()
   useAuthToken()
-  useBot()
+  useUserData()
   useOnboardSlides()
   useMonitoring()
   useAllowedScopes()

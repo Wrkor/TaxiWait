@@ -8,7 +8,8 @@ export const initialValues = {
     userAllowedScopes: [],
     vkToken: "",
     sign: "",
-    enableBot: false
+    isCheckModalVerify: false,
+    userBot: false
   },
   snackbar: {
     error: "",
@@ -30,6 +31,7 @@ export const initialValues = {
   monitoring: {
     isMonitoringRun: false,
     isMonitoringSuccess: false,
+    isContinue: false,
   }
 }
 

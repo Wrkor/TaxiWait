@@ -13,10 +13,11 @@ import useSnackbarContext from './useSnackbarContext'
 import useTaxiContext from './useTaxiContext'
 import useTheme from './useTheme'
 import useUserContext from './useUserContext'
+import useUserData from './useUserData'
 import useUserInfo from './useUserInfo'
 
 export {
   useAllowedScopes, useAuthToken, useBridgeSubscribe, useGeodata,
-  useLaunchParams, useMap, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, usePlatforms, useSnackbarContext, useTaxiContext, useTheme, useUserContext, useUserInfo
+  useLaunchParams, useMap, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, usePlatforms, useSnackbarContext, useTaxiContext, useTheme, useUserContext, useUserData, useUserInfo
 }
 

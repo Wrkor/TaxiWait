@@ -1,54 +1,60 @@
-import { useEffect, useState } from 'react'
-import { NormalizeError } from '../helpers'
+import { useEffect } from 'react'
 import useMonitoringContext from './useMonitoringContext'
-import useUserContext from './useUserContext'
+
+import useSocket from './useSocket'
+import useTaxiContext from './useTaxiContext'
 
 /**
  * Хук, который проверяет состояние мониторинга
  */
 export const useMonitoring = () => {
-  const [isMonitoringLoading, SetMonitoringLoading] = useState(true)
-  const [monitoringError, SetMonitoringError] = useState(null)
-  const [monitoring, SetMonitoring] = useState({})
+  const { SetMonitoringRun, SetMonitoringSuccess, SetMonitoringContinue } = useMonitoringContext()
+  const { SetWaitPrice } = useTaxiContext()
 
-  const { SetMonitoringActive } = useMonitoringContext()
-  const { userInfo } = useUserContext()
+  const {socket, isConnect} = useSocket()
 
   useEffect(() => {
-    SetMonitoringActive(monitoring)
-  }, [monitoring])
 
-  useEffect(() => {
-    if (!userInfo || !userInfo?.id) {
-      SetMonitoringLoading(false)
-      return
-    }
+    if (socket) {
+      socket.on('message', ({ event, data }) => {
 
-    const fetching = async () => {
-      try {
-        const data = {} //await GetUserActiveMonitoring(userInfo?.id)
-
-        // Мониторинг получен
-
-        if (!!data) {
-          SetMonitoring(data)
+        if (event === "notification") {
+          if (data?.type === "info") {
+            if (data?.result){
+              SetMonitoringRun(true)
+              SetMonitoringSuccess(true)
+            }
+    
+            else if (data?.message.includes("остановлен")){
+              SetMonitoringRun(false)
+              SetMonitoringSuccess(false)
+              SetMonitoringContinue(false)
+            }
+    
+            else if (["запущен", "возобновлен"].some(substring => data.message.includes(substring))){
+              SetMonitoringRun(true)
+              SetMonitoringSuccess(false)
+              SetMonitoringContinue(false)
+            }
+          }
+  
+          else if (data?.type === "warning") {
+            if (data?.message.includes("продолжить")){
+              SetMonitoringContinue(true)
+            }
+          }
         }
-      } 
-      catch (e) {
 
-        // Получена ошибка
-
-        console.error("[ERROR] useMonitoring: ", e)
-        SetMonitoringError(NormalizeError('Ошибка получения активного заказа'))
-      }
-      finally {
-        SetMonitoringLoading(false)
-      }
+        else if (event === "startMonitoring") {
+          SetMonitoringRun(true)
+          if (!!data?.price){
+            SetWaitPrice(data?.price)
+          }
+        }
+      })
+      return () => socket.off('message')
     }
-    fetching()
-  }, [userInfo])
-
-  return { isMonitoringLoading, monitoringError, monitoring }
+  }, [socket, isConnect])
 }
 
 export default useMonitoring

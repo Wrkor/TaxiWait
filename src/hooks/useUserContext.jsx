@@ -12,10 +12,18 @@ export const useUserContext = () => {
   const userAuthToken = userContext?.user?.userAuthToken
   const userLaunchParams = userContext?.user?.userLaunchParams
   const userAllowedScopes = userContext?.user?.userAllowedScopes
-  const enableBot = userContext?.user?.enableBot
+  const userData = userContext?.user?.userData
 
+  const isCheckModalVerify = userContext?.user?.isCheckModalVerify
   const sign = userContext?.user?.sign
   const vkToken = userContext?.user?.vkToken
+
+  const SetCheckModalVerify = (value) => {
+		userContext?.SetUser(prev => ({
+      ...prev,
+      isCheckModalVerify: value,
+    }))
+	}
 
   const SetUserAllowedScopes = (value) => {
 		userContext?.SetUser(prev => ({
@@ -54,14 +62,14 @@ export const useUserContext = () => {
     }))
 	}
 
-  const SetEnableBot = (value) => {
+  const SetUserData = (value) => {
 		userContext?.SetUser(prev => ({
       ...prev,
-      enableBot: value,
+      userData: value,
     }))
 	}
   
-	return {userContext, userInfo, userGeodata, userAuthToken, userLaunchParams, userAllowedScopes, sign, vkToken, enableBot, SetUserAllowedScopes, SetUserAuthToken, SetUserGeodata, SetUserLaunchParams, SetUserInfo, SetEnableBot}
+	return {userContext, userInfo, userGeodata, userAuthToken, userLaunchParams, userAllowedScopes, sign, vkToken, userData, isCheckModalVerify, SetUserAllowedScopes, SetUserAuthToken, SetUserGeodata, SetUserLaunchParams, SetUserInfo, SetUserData, SetCheckModalVerify}
 }
 
 export default useUserContext

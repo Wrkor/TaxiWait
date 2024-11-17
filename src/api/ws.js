@@ -5,9 +5,6 @@ let socket
 export let isConnect = false
 
 export const StopConnection = () => {
-	if (!isConnect)
-		return
-
 	socket.close()
 	socket.off('message')
 	socket.off('connect')
@@ -22,6 +19,11 @@ export const SendStartMonitoring = (message) => {
 export const SendManageMonitoring = (message) => {
 	console.log("SendManageMonitoring", socket)
 	socket.emit('manageMonitoring', message)
+}
+
+export const SendUpdateNotification = (message) => {
+	console.log("SendUpdateNotification", socket)
+	socket.emit('updateNotification', message)
 }
 
 export const StartConnection = (userLaunchParams, SetStartMonitoring, SetManageMonitoring, SetNotification, SetUserData, SetError, SetUnknown) => {
@@ -63,6 +65,4 @@ export const StartConnection = (userLaunchParams, SetStartMonitoring, SetManageM
 		isConnect = false
 		console.log("Disconnect")
 	})
-
-	socket.connect()
 }

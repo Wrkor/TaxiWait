@@ -2,19 +2,26 @@ import { Button, Slider, Spacing, Title } from '@vkontakte/vkui'
 import { useEffect } from 'react'
 import { AppPanelSpinner } from '..'
 import { GetPrice } from '../../api'
-import { useMapContext, useMonitoringContext, useSnackbarContext, useTaxiContext, useUserContext } from '../../hooks'
+import { useMapContext, useTaxiContext, useUserContext } from '../../hooks'
+import useSocket from '../../hooks/useSocket'
 
 export const MonitoringRunContainer = () => {
-	const { price, SetOrder, ClearOrder, discount, SetDiscount, discountPrice, SetDiscountPrice } = useTaxiContext()
-	const { SetMonitoringRun } = useMonitoringContext()
+	const { price, SetOrder, ClearOrder, discount, SetDiscount, discountPrice, SetDiscountPrice, SetWaitPrice } = useTaxiContext()
 	const { isRoadSelect, geocodeFrom, geocodeTo } = useMapContext()
 	const { vkToken } = useUserContext()
-
-	const { SetSnackbarSuccess } = useSnackbarContext()
+	const {socket} = useSocket()
 
 	const OnClickMonitoringRun = () => {
-		SetMonitoringRun(true)
-		SetSnackbarSuccess("Запущено ожидание такси")
+		if (!isRoadSelect || !geocodeFrom?.lat  || !geocodeFrom?.long|| !geocodeTo?.lat || !geocodeTo?.long || !discountPrice || !socket) 
+			return
+
+		const message = {
+			query: `${geocodeFrom.long},${geocodeFrom.lat}~${geocodeTo.long},${geocodeTo.lat}`,
+			targetPrice: discountPrice,
+		}
+
+		socket.emit('startMonitoring', message);
+		SetWaitPrice(price)
 	}
 
 	useEffect(() => {

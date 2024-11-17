@@ -1,8 +1,8 @@
 import { Icon28CheckCircleOutline } from '@vkontakte/icons'
 import { Snackbar } from '@vkontakte/vkui'
-import classes from './SnackbarWarning.module.scss'
+import classes from './SnackbarSuccess.module.scss'
 
-const SnackbarWarning = ({ onClose, text, duration, ...props }) => (
+const SnackbarSuccess = ({ onClose, text, duration, ...props }) => (
   <Snackbar
     {...props}
     placement="top"
@@ -14,4 +14,4 @@ const SnackbarWarning = ({ onClose, text, duration, ...props }) => (
   </Snackbar>
 );
 
-export default SnackbarWarning;
+export default SnackbarSuccess;

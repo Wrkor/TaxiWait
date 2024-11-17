@@ -21,9 +21,8 @@ export const useGeodata = () => {
 
         // Геоданные получены
 
-        if (!!data) {
+        if (!!data)
           SetUserGeodata(data)
-        }
       } 
       catch (e) {
 

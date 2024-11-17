@@ -1,83 +1,34 @@
 import { Button, Spacing, Title } from '@vkontakte/vkui'
-import { useEffect } from 'react'
-import { SendStartMonitoring, StartConnection, StopConnection } from '../../api'
-import { useMapContext, useMonitoringContext, useSnackbarContext, useTaxiContext, useUserContext } from '../../hooks'
+import { useMonitoringContext, useTaxiContext } from '../../hooks'
+import useSocket from '../../hooks/useSocket'
+import AlertConfirmActions from '../AlertConfirmActions/AlertConfirmActions'
 
 export const MonitoringWaitContainer = () => {
-	const { price, discount, discountPrice, waitPrice, SetWaitPrice } = useTaxiContext()
-	const { isRoadSelect, geocodeFrom, geocodeTo } = useMapContext()
-	const { SetMonitoringRun, SetMonitoringSuccess, isMonitoringRun } = useMonitoringContext()
-	const { SetSnackbarError, SetSnackbarSuccess, SetSnackbarWarning } = useSnackbarContext()
-	const { userLaunchParams } = useUserContext()
+	const { discountPrice, waitPrice } = useTaxiContext()
+	const { isContinue } = useMonitoringContext()
 
-	const OnClickMonitoringCancel = () => {
-		StopConnection()
-		SetMonitoringRun(false)
-		SetSnackbarError("Ожидание отменено")
-	}
+	const { socket } = useSocket()
 
-	const SetStartMonitoring = (data) => {
-		if (!data)
+	const OnClickMonitoringContinue = (value) => {
+		if (!socket) 
 			return
-
-		SetWaitPrice(data?.price)
-		SetMonitoringSuccess(!!data?.result)
-	}
-
-	const SetManageMonitoring = (data) =>{
-		// ВОПРОС ЗАДАЕТ ВЫПЛЮНУТЬ МОДАЛКУ
-		console.log("SetManageMonitoring", data)
-	} 
-
-	const SetNotification = (data) => {
-		if (!data?.type || !data?.message)
-			return
-
-		if (data?.type === "info")
-			SetSnackbarSuccess(data?.message)
-
-		else if (data?.type === "warning")
-			SetSnackbarWarning(data?.message)
-
-		else if (data?.type === "critical")
-			SetSnackbarError(data?.message)
-	}
-
-	const SetError = (data) => {
-		SetSnackbarError(data?.message)
-		console.log("[ERROR]", data)
-	}
-
-	const SetUnknown = (data) => {
-		console.log("[Unknown]", data)
-	}
-
-	const SetUserData = (data) => {
-
-		console.log("SetUserData", data)
-	}
-
-	useEffect(() => {
-		SetWaitPrice(data?.price)
-	}, [price])
-
-	useEffect(() => {
-		if (!isRoadSelect || !geocodeFrom?.lat  || !geocodeFrom?.long|| !geocodeTo?.lat || !geocodeTo?.long || !discountPrice || !isMonitoringRun) {
-			return
-		}
-
-		StartConnection(userLaunchParams, SetStartMonitoring, SetManageMonitoring, SetNotification, SetUserData, SetError, SetUnknown)
-
-		const message = {
-			query: `${geocodeFrom.long},${geocodeFrom.lat}~${geocodeTo.long},${geocodeTo.lat}`,
-			targetPrice: discountPrice,
-		}
 		
-		SendStartMonitoring(message)
-	}, [isMonitoringRun, geocodeFrom, geocodeTo])
+		socket.emit('manageMonitoring', { "continue": value })
+	}
 
   return (
 		<div className='container'>
+			{
+        isContinue &&
+        <AlertConfirmActions
+					onAgree={() => OnClickMonitoringContinue(true)}
+					onDisagree={() => OnClickMonitoringContinue(false)}
+					textButtonAgree="Ок"
+					textButtonDisagree="Отмена"
+					header="Подтверждение"
+					text="Пожалуйста подтвердите получение сообщений о заказах из сообщества 'Мониторинг такси'" />
+      }
+			
 			<Spacing size={40} />
 			<Title level="1" className='nonSeleted colorFirst'> 
 				Мониторинг стоимости:
@@ -96,11 +47,11 @@ export const MonitoringWaitContainer = () => {
 			</Title>
 			<Spacing size={8} />
 			<Title level="3" className='nonSeleted colorFirst' style={{fontSize: "16px"}}> 
-				{discount}% ({discountPrice} руб.)
+			{discountPrice} руб.
 			</Title>
 			<Spacing size={50} />
 			<Button size="l" appearance="negative"
-			style={{width: "80%"}} onClick={OnClickMonitoringCancel}>
+			style={{width: "80%"}} onClick={() => OnClickMonitoringContinue(false)}>
 				Отменить мониторинг
 			</Button>
 		</div>

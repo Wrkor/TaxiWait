@@ -72,9 +72,7 @@ export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
 				placeholder={"Откуда"} 
 				filterOptions={FilterAddresses}
 				length={3}
-				request={async (value) => 
-					await GetSuggestAddress({ q: value, location: `${lat},${long}`}, vkToken, params)
-				}
+				request={async (value, vkToken2) => await GetSuggestAddress({ q: value, location: `${lat},${long}` }, vkToken2, params)}
 				onInputChange={() => OnOpenSelect()} 
 				onOpen={() => OnOpenSelect()} 
 				onClose={() => OnCloseSelect()} 
@@ -91,7 +89,7 @@ export const MapPanel = ({ OnOpenSelect, OnCloseSelect }) => {
 				placeholder={"Куда"} 
 				filterOptions={FilterAddresses}
 				length={3}
-				request={async (value) => await GetSuggestAddress({ q: value, location: `${lat},${long}`}, vkToken, params)} 
+				request={async (value, vkToken2) => await GetSuggestAddress({ q: value, location: `${lat},${long}`}, vkToken2, params)} 
 				onInputChange={() => OnOpenSelect()} 
 				onOpen={() => OnOpenSelect()} 
 				onClose={() => OnCloseSelect()} 

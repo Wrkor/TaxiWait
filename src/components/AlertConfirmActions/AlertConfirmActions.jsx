@@ -1,8 +1,8 @@
-import { Alert, Div } from '@vkontakte/vkui';
-import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import { Alert } from '@vkontakte/vkui'
 
 
-const CancelOrderConfirmPopout = ({ onClose, onAgree, onDisagree, textButtonAgree, textButtonDisagree, header, text, ...props }) => {
+export const AlertConfirmActions = ({ onClose, onAgree, onDisagree, textButtonAgree, textButtonDisagree, header, text, ...props }) => {
   const routeNavigator = useRouteNavigator();
 
   return (
@@ -30,4 +30,4 @@ const CancelOrderConfirmPopout = ({ onClose, onAgree, onDisagree, textButtonAgre
   );
 };
 
-export default CancelOrderConfirmPopout;
+export default AlertConfirmActions

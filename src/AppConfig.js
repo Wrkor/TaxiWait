@@ -3,12 +3,12 @@ import { useAdaptivity, useAppearance, useInsets } from '@vkontakte/vk-bridge-re
 import { RouterProvider } from '@vkontakte/vk-mini-apps-router'
 import { AdaptivityProvider, AppRoot, ConfigProvider } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
-import { App } from './App'
-import MapContext from './context/MapProvider'
-import MonitoringContext from './context/MonitoringProvider'
-import SnackbarContext from './context/SnackbarProvider'
-import TaxiContext from './context/TaxiProvider'
-import UserContext from './context/UserProvider'
+import { AppSocket } from './AppSocket'
+import MapProvider from './context/MapProvider'
+import MonitoringProvider from './context/MonitoringProvider'
+import SnackbarProvider from './context/SnackbarProvider'
+import TaxiProvider from './context/TaxiProvider'
+import UserProvider from './context/UserProvider'
 import { router } from './routes'
 import { transformVKBridgeAdaptivity } from './utils/transformVKBridgeAdaptivity'
 
@@ -28,17 +28,17 @@ export const AppConfig = () => {
       <AdaptivityProvider {...adaptivity}>
         <AppRoot mode="full" safeAreaInsets={vkBridgeInsets}>
           <RouterProvider router={router}>
-            <UserContext>
-              <TaxiContext>
-                <MonitoringContext>
-                  <MapContext>
-                    <SnackbarContext>
-                      <App />
-                    </SnackbarContext>
-                  </MapContext>
-                </MonitoringContext>
-              </TaxiContext>
-            </UserContext>
+            <UserProvider>
+              <TaxiProvider>
+                <MonitoringProvider>
+                  <MapProvider>
+                    <SnackbarProvider>
+                      <AppSocket />
+                    </SnackbarProvider>
+                  </MapProvider>
+                </MonitoringProvider>
+              </TaxiProvider>
+            </UserProvider>
           </RouterProvider>
         </AppRoot>
       </AdaptivityProvider>

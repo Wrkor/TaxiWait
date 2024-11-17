@@ -2,60 +2,48 @@ import { Icon24ChevronCompactRight, Icon28ArticleOutline, Icon28CarOutline, Icon
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Avatar, Banner, Cell, Div, Panel, PanelHeader, SimpleCell, Switch } from '@vkontakte/vkui'
 import { useEffect, useState } from 'react'
-import { SnackbarError, SnackbarSuccess } from '../components'
-import AlertConfirmActions from '../components/AlertConfirmActions/AlertConfirmActions.jsx'
-import AppPanelSpinner from '../components/AppPanelSpinner/AppPanelSpinner.jsx'
-import SnackbarWarning from '../components/Snackbar/SnackbarSuccess.jsx'
+import { AlertConfirmActions, AppPanelSpinner, SnackbarError, SnackbarSuccess, SnackbarWarning } from '../components'
 import globalConstants from '../config/globalConstants'
-import { isShowNotificationGet, isShowNotificationSet, ShowAlertAcceptNotificationGet } from '../helpers'
 import { useMonitoringContext, useSnackbarContext } from '../hooks'
+import useSocket from '../hooks/useSocket'
 import useUserContext from '../hooks/useUserContext'
-import useBot from '../hooks/index.js'
 
 export const AccountPanel = ({ id }) => {
     const routeNavigator = useRouteNavigator()
-    const { userInfo } = useUserContext()
+    const { userInfo, userData } = useUserContext()
     const { isMonitoringRun } = useMonitoringContext()
-
     const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError, snackbarWarning, SetSnackbarWarning } = useSnackbarContext()
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [initShowAlert, setInitShowAlert] = useState(false)
-    const [isShowAlertAcceptNotification] = useBot()
-    const [isAgreeOnNotification, setAgreeOnNotification] = useState(false)
-   
-    useEffect(() => {
-        setIsLoading(true)
-        const initSwitch = (async () => {
-            let isAgree = await isShowNotificationGet()
-            setAgreeOnNotification(isAgree)
-            let initShowAlertGet = await ShowAlertAcceptNotificationGet()
-            setInitShowAlert(initShowAlertGet) 
-            setIsLoading(false)
-        })
-        initSwitch()
-    }, [])
+    const [isLoading, SetIsLoading] = useState(true)
+    const [isShowModal, SetShowModal] = useState(false)
 
-    const chageGetNotification = async () => {
-        //const isShowAlert = ShowAlertAcceptNotificationGet()
-        if (!initShowAlert) {
-            setAgreeOnNotification(!isAgreeOnNotification)
-            await isShowNotificationSet(`${!isAgreeOnNotification}`)
+    const { socket } = useSocket()
+
+    const SetNotification = (value) => {
+        if (!userData?.notifications?.vk?.verify) {
+            SetShowModal(true)
+            return
         }
-        else{
-            setShowAlertNotification(true)
-        }
+
+        if (!socket)
+            return
+        
+        socket.emit('updateNotification', { "active": value })
     }
+
+    useEffect(() => {
+        if (userData) {
+            SetIsLoading(false)
+        }
+    }, [userData])
 
     return (
         <Panel id={id}>
             {
-
-                isShowAlertAcceptNotification &&
+                isShowModal &&
                 <AlertConfirmActions
-                    onClose={() => { setShowAlertNotification(false);}}
-                    onAgree={async () => { setAgreeOnNotification(true); await isShowNotificationSet(`true`) }}
-                    onDisagree={async () => { setAgreeOnNotification(false); await isShowNotificationSet(`false`) }}
+                    onClose={() => SetShowModal(false)}
+                    onAgree={() => SetNotification(true)}
                     textButtonAgree="Ок"
                     textButtonDisagree="Отмена"
                     header="Подтверждение"
@@ -91,7 +79,7 @@ export const AccountPanel = ({ id }) => {
                         <Cell
                             expandable="auto"
                             before={<Icon28Notifications />}
-                            after={<Switch checked={isAgreeOnNotification} onClick={() => { chageGetNotification() }} />}
+                            after={<Switch checked={userData?.notifications?.vk?.active} onClick={() => { SetNotification(userData?.notifications?.vk?.active) }} onChange={() => {}} />}
                         >
                             Уведомления в ВК
                         </Cell>
