@@ -33,14 +33,8 @@ export const AccountPanel = ({ id }) => {
     }
 
     function handleLabelClick() {
-        // window.location.href = "https://vk.com/im?media=&sel=-223336463";
-        // const options = 'noopener noreferrer';
-        // const link = 'https://vk.com/im?media=&sel=-223336463';
-        // window.open(link, "_blank");
-    
-        // Получить ссылку из тега <a>
         const link = document.querySelector('.link_incorrect');
-    
+
         // Проверить, что ссылка существует
         if (link) {
           // Симулировать клик по ссылке
@@ -65,7 +59,7 @@ export const AccountPanel = ({ id }) => {
                 isShowModal &&
                 <AlertConfirmActions
                     onClose={() => SetShowModal(false)}
-                    onAgree={() => {SetNotification(true), handleLabelClick()}}//window.open("https://vk.com/im?media=&sel=-226817243")
+                    onAgree={() => {SetNotification(true), handleLabelClick()}}
                     textButtonAgree="Ок"
                     textButtonDisagree="Отмена"
                     header="Подтверждение"
