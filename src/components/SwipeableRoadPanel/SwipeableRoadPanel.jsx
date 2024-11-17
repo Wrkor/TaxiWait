@@ -48,15 +48,15 @@ export const SwipeableRoadPanel = () => {
 				{
 					isMonitoringRun
 						?
-						isMonitoringSuccess
-							?
-							<MonitoringSuccessContainer />
-							:
 							<MonitoringWaitContainer />
 						:
-						<>
-							<RoadContainer OnOpenSelect={OnOpenSelect} OnCloseSelect={OnCloseSelect} />
-						</>
+							isMonitoringSuccess 
+							?
+								<MonitoringSuccessContainer />
+							:
+								<>
+									<RoadContainer OnOpenSelect={OnOpenSelect} OnCloseSelect={OnCloseSelect} />
+								</>
 				}
 
 			</SwipeableContainer>

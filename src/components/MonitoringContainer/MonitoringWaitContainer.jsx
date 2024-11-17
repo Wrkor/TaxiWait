@@ -39,7 +39,7 @@ export const MonitoringWaitContainer = () => {
 			</Title>
 			<Spacing size={8} />
 			<Title level="1" className='nonSeleted colorPrimary' style={{fontSize: "48px", lineHeight: "48px"}}> 
-				{waitPrice} руб.
+				{!!waitPrice ? `${waitPrice} руб.` : "Загрузка..."}
 			</Title>
 			<Spacing size={8} />
 			<Title level="3" className='nonSeleted colorSecondary' style={{fontSize: "16px"}}> 

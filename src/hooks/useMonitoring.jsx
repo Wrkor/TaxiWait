@@ -20,14 +20,8 @@ export const useMonitoring = () => {
 
         if (event === "notification") {
           if (data?.type === "info") {
-            if (data?.result){
-              SetMonitoringRun(true)
-              SetMonitoringSuccess(true)
-            }
-    
-            else if (data?.message.includes("остановлен")){
+            if (data?.message.includes("остановлен")){
               SetMonitoringRun(false)
-              SetMonitoringSuccess(false)
               SetMonitoringContinue(false)
             }
     
@@ -47,8 +41,13 @@ export const useMonitoring = () => {
 
         else if (event === "startMonitoring") {
           SetMonitoringRun(true)
+
           if (!!data?.price){
             SetWaitPrice(data?.price)
+          }
+
+          if (data?.result){
+            SetMonitoringSuccess(true)
           }
         }
       })
