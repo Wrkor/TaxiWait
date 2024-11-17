@@ -1,8 +1,9 @@
 import { Button, Spacing, Title } from '@vkontakte/vkui'
 import { AppPanelSpinner } from '../'
-import { useMonitoringContext, useTaxiContext } from '../../hooks'
+import { useMonitoringContext, useTaxiContext, useMapContext } from '../../hooks'
 
 export const MonitoringSuccessContainer = () => {
+	const { geocodeFrom, geocodeTo } = useMapContext()
 	const { price, discountPrice } = useTaxiContext()
 	const { SetMonitoringSuccess, SetMonitoringRun } = useMonitoringContext()
 
@@ -10,6 +11,8 @@ export const MonitoringSuccessContainer = () => {
 		console.log("REQUEST_MONITORING_GO_APP")
 		SetMonitoringRun(false)
 		SetMonitoringSuccess(false)
+		const linkYGO = `https://3.redirect.appmetrica.yandex.com/route?start-lat=${geocodeFrom.lat}&start-lon=${geocodeFrom.long}&end-lat=${geocodeTo.lat}&end-lon=${geocodeTo.long}&tariffClass=econom&ref=yoursiteru&appmetrica_tracking_id=25395763362139037`
+		window.open(linkYGO)
 	}
 	
   return (

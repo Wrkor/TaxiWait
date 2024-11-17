@@ -43,7 +43,7 @@ export const AccountPanel = ({ id }) => {
                 isShowModal &&
                 <AlertConfirmActions
                     onClose={() => SetShowModal(false)}
-                    onAgree={() => SetNotification(true)}
+                    onAgree={() => {SetNotification(true), window.open("https://vk.com/im?media=&sel=-226817243")}}
                     textButtonAgree="Ок"
                     textButtonDisagree="Отмена"
                     header="Подтверждение"
