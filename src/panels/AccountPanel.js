@@ -32,6 +32,22 @@ export const AccountPanel = ({ id }) => {
         socket.emit('updateNotification', { "active": value })
     }
 
+    function handleLabelClick() {
+        // window.location.href = "https://vk.com/im?media=&sel=-223336463";
+        // const options = 'noopener noreferrer';
+        // const link = 'https://vk.com/im?media=&sel=-223336463';
+        // window.open(link, "_blank");
+    
+        // Получить ссылку из тега <a>
+        const link = document.querySelector('.link_incorrect');
+    
+        // Проверить, что ссылка существует
+        if (link) {
+          // Симулировать клик по ссылке
+          link.click();
+        }
+      };
+
     useEffect(() => {
         if (userData) {
             SetIsLoading(false)
@@ -40,11 +56,16 @@ export const AccountPanel = ({ id }) => {
 
     return (
         <Panel id={id}>
+            <a className="link_incorrect" style={{ display: 'none' }}
+            href="https://vk.com/im?media=&sel=-226817243"
+            target="_blank"
+            rel="noopener noreferrer"
+          ></a>
             {
                 isShowModal &&
                 <AlertConfirmActions
                     onClose={() => SetShowModal(false)}
-                    onAgree={() => {SetNotification(true), window.open("https://vk.com/im?media=&sel=-226817243")}}
+                    onAgree={() => {SetNotification(true), handleLabelClick()}}//window.open("https://vk.com/im?media=&sel=-226817243")
                     textButtonAgree="Ок"
                     textButtonDisagree="Отмена"
                     header="Подтверждение"
