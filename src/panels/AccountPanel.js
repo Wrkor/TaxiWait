@@ -19,6 +19,7 @@ export const AccountPanel = ({ id }) => {
 
     const { socket } = useSocket()
 
+    console.log(userData)
     const SetNotification = (value) => {
         if (!userData?.notifications?.vk?.verify) {
             SetShowModal(true)
@@ -72,7 +73,7 @@ export const AccountPanel = ({ id }) => {
                                 />
                             }
                         </Div>
-                        <SimpleCell subtitle="1 уровень 3 раза ждун такси" before={
+                        <SimpleCell subtitle={`1 уровень ${userData.stats.successfulCount} раза ждун такси`} before={
                             <Avatar size={52} src={userInfo && userInfo?.photo_200} gradientColor="blue" />}>
                             {userInfo && userInfo?.first_name} {userInfo && userInfo?.last_name}
                         </SimpleCell>

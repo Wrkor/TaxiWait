@@ -30,6 +30,7 @@ export const MapPanel = ({ id }) => {
 					text="Пожалуйста подтвердите получение сообщений о заказах из сообщества 'Мониторинг такси'" />
       }
       <PanelHeader delimiter="none">Жду такси</PanelHeader>
+      {/* <button onClick={()=>window.open("https://vk.com/im?media=&sel=-226817243")}>Click</button> */}
       <MapContainer/>
       <SwipeableRoadPanel />
       {
