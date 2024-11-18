@@ -1,16 +1,16 @@
 import { Panel, PanelHeader } from '@vkontakte/vkui'
 import { MapContainer, SnackbarError, SnackbarSuccess, SwipeableRoadPanel } from '../components'
-import { SnackbarWarning } from '../components/Snackbar'
-import { useSnackbarContext, useMonitoringContext } from '../hooks'
 import AlertConfirmActions from '../components/AlertConfirmActions/AlertConfirmActions'
+import { SnackbarWarning } from '../components/Snackbar'
+import { useMonitoringContext, useSnackbarContext } from '../hooks'
 import useSocket from '../hooks/useSocket'
 
 export const MapPanel = ({ id }) => {
   const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError, snackbarWarning, SetSnackbarWarning } = useSnackbarContext()
-  const { isContinue } = useMonitoringContext()
+  const { isContinue, SetMonitoringContinue } = useMonitoringContext()
 
   const { socket } = useSocket()
-  //TODO Fix Sasha
+
   const OnClickMonitoringContinue = (value) => {
     if (!socket)
       return
@@ -28,7 +28,7 @@ export const MapPanel = ({ id }) => {
         <AlertConfirmActions
           onAgree={() => { OnClickMonitoringContinue(true) }}
           onDisagree={() => { OnClickMonitoringContinue(false) }}
-          onClose={() => { OnClickMonitoringContinue(false) }}
+          onClose={() => { SetMonitoringContinue(false) }}
           textButtonAgree="Продолжить"
           textButtonDisagree="Отменить"
           header="Подтверждение"

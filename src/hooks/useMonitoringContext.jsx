@@ -7,9 +7,17 @@ import { MonitoringContext } from '../context/MonitoringProvider'
 export const useMonitoringContext = () => {
   const monitoringContext = useContext(MonitoringContext)
 
+  const elapsedTime = monitoringContext?.monitoring?.elapsedTime
   const isMonitoringRun = monitoringContext?.monitoring?.isMonitoringRun
   const isMonitoringSuccess = monitoringContext?.monitoring?.isMonitoringSuccess
   const isContinue = monitoringContext?.monitoring?.isContinue
+
+  const SetElapsedTime = (value) => {
+		monitoringContext.SetMonitoring(prev => ({
+      ...prev,
+      elapsedTime: value,
+    }))
+  }
 
 	const SetMonitoringRun = (value) => {
 		monitoringContext.SetMonitoring(prev => ({
@@ -33,7 +41,7 @@ export const useMonitoringContext = () => {
     }))
   }
 
-	return {monitoringContext, isMonitoringRun, SetMonitoringRun, isMonitoringSuccess, SetMonitoringSuccess, isContinue, SetMonitoringContinue}
+	return {monitoringContext, isMonitoringRun, SetMonitoringRun, isMonitoringSuccess, SetMonitoringSuccess, isContinue, SetMonitoringContinue, elapsedTime, SetElapsedTime}
 }
 
 export default useMonitoringContext

@@ -17,12 +17,12 @@ export const SocketProvider = ({ children, userLaunchParams  }) => {
     })
 
     newSocket.on('connect', () => {
-      console.log('Connected to socket server')
+      //console.log('Connected to socket server')
       SetConnect(true)
     })
 
     newSocket.on('disconnect', () => {
-      console.log('Disconnected from socket server')
+      //console.log('Disconnected from socket server')
       SetConnect(false)
     })
 

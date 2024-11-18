@@ -1,4 +1,4 @@
-import { Icon24ChevronCompactRight, Icon28ArticleOutline, Icon28CarOutline, Icon28Notifications, Icon28VideoCircleOutline, Icon28ViewOutline } from '@vkontakte/icons'
+import { Icon28CarOutline, Icon28Notifications } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Avatar, Banner, Cell, Div, Panel, PanelHeader, SimpleCell, Switch } from '@vkontakte/vkui'
 import { useEffect, useState } from 'react'
@@ -11,7 +11,7 @@ import useUserContext from '../hooks/useUserContext'
 export const AccountPanel = ({ id }) => {
     const routeNavigator = useRouteNavigator()
     const { userInfo, userData } = useUserContext()
-    const { isMonitoringRun } = useMonitoringContext()
+    const { isMonitoringRun, elapsedTime } = useMonitoringContext()
     const { snackbarSuccess, SetSnackbarSuccess, snackbarError, SetSnackbarError, snackbarWarning, SetSnackbarWarning } = useSnackbarContext()
 
     const [isLoading, SetIsLoading] = useState(true)
@@ -19,7 +19,6 @@ export const AccountPanel = ({ id }) => {
 
     const { socket } = useSocket()
 
-    console.log(userData)
     const SetNotification = (value) => {
         if (!userData?.notifications?.vk?.verify) {
             SetShowModal(true)
@@ -40,7 +39,17 @@ export const AccountPanel = ({ id }) => {
           // Симулировать клик по ссылке
           link.click();
         }
-      };
+    }
+
+    function handleLabelClick2() {
+        const link = document.querySelector('.link_incorrect2');
+
+        // Проверить, что ссылка существует
+        if (link) {
+          // Симулировать клик по ссылке
+          link.click();
+        }
+    }
 
     useEffect(() => {
         if (userData) {
@@ -50,11 +59,12 @@ export const AccountPanel = ({ id }) => {
 
     return (
         <Panel id={id}>
-            <a className="link_incorrect" style={{ display: 'none' }}
+            <button onClick={() => handleLabelClick2()} style={{ display: 'none' }} className="link_incorrect">Click</button>
+            <a className="link_incorrect2" style={{ display: 'none' }}
             href="https://vk.com/im?media=&sel=-226817243"
             target="_blank"
             rel="noopener noreferrer"
-          ></a>
+            />
             {
                 isShowModal &&
                 <AlertConfirmActions
@@ -81,6 +91,7 @@ export const AccountPanel = ({ id }) => {
                                 <Banner
                                     mode="image"
                                     header="Еще ведем мониторинг цены"
+                                    subheader={`Прошло ${elapsedTime} минуты`}
                                     asideMode="expand"
                                     onClick={() => routeNavigator.push(globalConstants.routes.main)}
                                     background={<div style={{ backgroundColor: '#2688eb' }}></div>}
@@ -95,7 +106,7 @@ export const AccountPanel = ({ id }) => {
                         <Cell
                             expandable="auto"
                             before={<Icon28Notifications />}
-                            after={<Switch checked={userData?.notifications?.vk?.active} onClick={() => { SetNotification(userData?.notifications?.vk?.active) }} onChange={() => {}} />}
+                            after={<Switch checked={userData?.notifications?.vk?.active} onClick={() => { SetNotification(!userData?.notifications?.vk?.active) }} onChange={() => {}} />}
                         >
                             Уведомления в ВК
                         </Cell>

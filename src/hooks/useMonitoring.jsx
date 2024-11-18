@@ -8,7 +8,7 @@ import useTaxiContext from './useTaxiContext'
  * Хук, который проверяет состояние мониторинга
  */
 export const useMonitoring = () => {
-  const { SetMonitoringRun, SetMonitoringSuccess, SetMonitoringContinue } = useMonitoringContext()
+  const { SetMonitoringRun, SetMonitoringSuccess, SetMonitoringContinue, SetElapsedTime } = useMonitoringContext()
   const { SetWaitPrice } = useTaxiContext()
 
   const {socket, isConnect} = useSocket()
@@ -19,9 +19,11 @@ export const useMonitoring = () => {
       socket.on('message', ({ event, data }) => {
 
         if (event === "notification") {
+
           if (data?.type === "info") {
             if (data?.message.includes("остановлен")){
               SetMonitoringRun(false)
+              SetMonitoringSuccess(false)
               SetMonitoringContinue(false)
             }
     
@@ -41,13 +43,13 @@ export const useMonitoring = () => {
 
         else if (event === "startMonitoring") {
           SetMonitoringRun(true)
-
-          if (!!data?.price){
-            SetWaitPrice(data?.price)
-          }
+          SetElapsedTime(data?.elapsedTime)
+          SetWaitPrice(data?.price)
 
           if (data?.result){
+            SetMonitoringRun(false)
             SetMonitoringSuccess(true)
+            SetMonitoringContinue(false)
           }
         }
       })

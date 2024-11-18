@@ -10,6 +10,6 @@ export const FilterAddresses = (arrayAddresses) => {
   
   // Получение уникальных адресов
   const uniqueAddresses = Array.from(new Map(filteredAddresses.map(item => [item.label, item])).values());
-  
+
   return uniqueAddresses;
 };

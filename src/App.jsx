@@ -4,16 +4,16 @@ import './App.scss'
 import { AppModalRoot, AppTabBar } from './components/index'
 import globalConstants from './config/globalConstants'
 import { EnableSwipe } from './helpers'
-import { useAllowedScopes, useAuthToken, useGeodata, useLaunchParams, useMapContext, useMonitoring, useMonitoringContext, useOnboardSlides, useTaxiContext, useUserContext, useUserData, useUserInfo } from './hooks'
+import { useAllowedScopes, useAuthToken, useGeodata, useLaunchParams, useMonitoring, useOnboardSlides, useUserData, useUserInfo } from './hooks'
 import { AccountPanel, MapPanel, OrdersPanel } from './panels/'
 
 export const App = () => {
   const { view: activeView, panel: activePanel = globalConstants.panel.map } = useActiveVkuiLocation()
   const routerPopout = usePopout()
-  const { userContext, sign, userData, userLaunchParams } = useUserContext()
-  const { monitoringContext } = useMonitoringContext()
-  const { mapContext } = useMapContext()
-  const { taxiContext } = useTaxiContext()
+  // const { userContext, sign, userData, userLaunchParams } = useUserContext()
+  // const { monitoringContext } = useMonitoringContext()
+  // const { mapContext } = useMapContext()
+  // const { taxiContext } = useTaxiContext()
 
   // console.log("userContext", userContext?.user)
   // console.log("monitoringContext", monitoringContext?.monitoring)

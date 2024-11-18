@@ -5,7 +5,6 @@ import useSocket from '../../hooks/useSocket'
 export const MonitoringWaitContainer = () => {
 	const { discountPrice, waitPrice } = useTaxiContext()
 
-
 	const { socket } = useSocket()
 
 	const OnClickMonitoringContinue = (value) => {

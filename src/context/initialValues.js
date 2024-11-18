@@ -32,6 +32,7 @@ export const initialValues = {
     isMonitoringRun: false,
     isMonitoringSuccess: false,
     isContinue: false,
+    elapsedTime: 0,
   }
 }
 

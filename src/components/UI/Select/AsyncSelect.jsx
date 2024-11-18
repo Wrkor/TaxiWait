@@ -8,7 +8,7 @@ export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputC
   const [text, SetText] = useState("Введите адрес")
   const [options, SetOptions] = useState([])
   const { SetSnackbarError } = useSnackbarContext()
-	const [inputValue, setInputValue] = useState('');
+	const [inputValue, setInputValue] = useState('')
 	const { vkToken } = useUserContext()
 
   const fetch = async (query) => {
@@ -34,17 +34,17 @@ export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputC
   };
 
   const debouncedFetchAddresses = useMemo(() => 
-		debounce(fetch, 1000), [vkToken]);
+		debounce(fetch, 500), [vkToken])
 
 	const filteredOptions = useMemo(() => {
 		return !!filterOptions ? filterOptions(options) : options
-	}, [options, filterOptions]);
+	}, [options, filterOptions])
 
 	useEffect(() => {
-		debouncedFetchAddresses(inputValue);
+		debouncedFetchAddresses(inputValue)
 
 		return () => debouncedFetchAddresses.cancel()
-	}, [inputValue, debouncedFetchAddresses]);
+	}, [inputValue, debouncedFetchAddresses])
 
 	useEffect(() => {
 		if (!!defaultValue) {
@@ -53,15 +53,18 @@ export const AsyncCustomSelect = ({ placeholder, request, icon, onOpen, onInputC
 		}
 	}, [defaultValue])
 
+	// Кастомная функция фильтрации поиска опций с и без запятых
+	//const customSearchFilter = (value, option) => option.label.toLowerCase().replace(/[, ]+/g, '').includes(value.toLowerCase().replace(/[, ]+/g, ''))
+
   return (
 		<CustomSelect
 			{...props}
 			defaultValue={defaultValue}
 			onChange={(e) => onSelect(e?.target?.value)}
 			onInputChange={e => setInputValue(e?.target?.value)}
+			filterFn={() => true}
 			options={filteredOptions}
 			fetching={fetching}
-			renderDropdown={!fetching}
 			onClick={onOpen}
 			onOpen={onOpen}
 			onClose={onClose}
